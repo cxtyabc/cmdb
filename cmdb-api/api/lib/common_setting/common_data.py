@@ -249,6 +249,7 @@ class AuthenticateDataCRUD(object):
     def test_ldap(test_type, data):
         ldap_server = data.get('ldap_server')
         ldap_user_dn = data.get('ldap_user_dn', '{}')
+        ldap_domain = data.get('ldap_domain')
 
         server = Server(ldap_server, connect_timeout=2)
         if not server.check_availability():
@@ -265,8 +266,12 @@ class AuthenticateDataCRUD(object):
 
         try:
             Connection(server, user=user, password=password, auto_bind=AUTO_BIND_NO_TLS)
-        except LDAPBindError:
-            ldap_domain = data.get('ldap_domain')
+        except LDAPBindError as bind_error:
+            # Only fall back to UPN format when a domain is configured and
+            # the original bind did not already fail with a credentials error.
+            if not ldap_domain or 'invalidCredentials' in str(bind_error):
+                raise Exception(ErrFormat.ldap_test_unknown_error.format(str(bind_error)))
+
             user_with_domain = f"{username}@{ldap_domain}"
             try:
                 Connection(server, user=user_with_domain, password=password, auto_bind=AUTO_BIND_NO_TLS)

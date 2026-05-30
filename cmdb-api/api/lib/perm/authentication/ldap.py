@@ -16,8 +16,48 @@ from ldap3.core.exceptions import LDAPSocketOpenError
 from api.lib.common_setting.common_data import AuthenticateDataCRUD
 from api.lib.common_setting.const import AuthenticateType
 from api.lib.perm.acl.audit import AuditCRUD
+from api.lib.perm.acl.role import RoleRelationCRUD
 from api.lib.perm.acl.resp_format import ErrFormat
+from api.models.acl import App
+from api.models.acl import Role
+from api.models.acl import RoleRelation
 from api.models.acl import User
+
+
+def _ensure_devops_admin_roles(user, user_dn):
+    if not user or 'ou=devops' not in (user_dn or '').lower():
+        return
+
+    user_role = Role.query.filter(Role.uid == user.uid, Role.deleted.is_(False)).first()
+    if not user_role:
+        current_app.logger.warning("LDAP user role missing for %s", user.username)
+        return
+
+    admin_roles = (
+        ('acl_admin', None),
+        ('cmdb_admin', 'cmdb'),
+    )
+    for role_name, app_name in admin_roles:
+        parent_role = Role.get_by(name=role_name, first=True, to_dict=False)
+        if not parent_role:
+            current_app.logger.warning("LDAP admin role missing: %s", role_name)
+            continue
+
+        app_id = None
+        if app_name:
+            app = App.get_by(name=app_name, first=True, to_dict=False)
+            if not app:
+                current_app.logger.warning("LDAP app missing for role sync: %s", app_name)
+                continue
+            app_id = app.id
+
+        existed = RoleRelation.get_by(parent_id=parent_role.id,
+                                      child_id=user_role.id,
+                                      app_id=app_id,
+                                      first=True,
+                                      to_dict=False)
+        if not existed:
+            RoleRelationCRUD.add(user_role, parent_role.id, [user_role.id], app_id)
 
 
 def authenticate_with_ldap(username, password):
@@ -29,7 +69,7 @@ def authenticate_with_ldap(username, password):
         who = config.get('ldap_user_dn').format(username.split('@')[0])
     else:
         who = config.get('ldap_user_dn').format(username)
-        email = "{}@{}".format(who, config.get('ldap_domain'))
+        email = "{}@{}".format(username, config.get('ldap_domain'))
 
     username = username.split('@')[0]
     user = User.query.get_by_username(username)
@@ -55,6 +95,8 @@ def authenticate_with_ldap(username, password):
         if not user:
             from api.lib.perm.acl.user import UserCRUD
             user = UserCRUD.add(username=username, email=email, password=uuid.uuid4().hex)
+
+        _ensure_devops_admin_roles(user, who)
 
         return user, True
 

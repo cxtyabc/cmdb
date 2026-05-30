@@ -41,13 +41,17 @@ class LoginView(APIView):
         _role = None
         auth_with_ldap = request.values.get('auth_with_ldap', True)
         config = AuthenticateDataCRUD(AuthenticateType.LDAP).get()
-        if (config.get('enabled') or config.get('enable')) and auth_with_ldap:
+        ldap_enabled = (config.get('enabled') or config.get('enable')) and auth_with_ldap
+        if ldap_enabled:
             from api.lib.perm.authentication.ldap import authenticate_with_ldap
             user, authenticated = authenticate_with_ldap(username, password)
         else:
             user, authenticated = User.query.authenticate(username, password)
             if not user:
                 _role, authenticated = Role.query.authenticate(username, password)
+
+        if ldap_enabled and not authenticated:
+            return abort(401, ErrFormat.invalid_password)
 
         if not user and not _role:
             return abort(401, ErrFormat.user_not_found.format(username))
