@@ -43,14 +43,49 @@ class AutoDiscoveryRuleView(APIView):
     url_prefix = ("/adr", "/adr/<int:adr_id>")
 
     def get(self):
+        """
+        获取自动发现规则列表
+        关键改进：自动补齐和更新内置规则的option字段，解决元数据缺失问题
+        对应踩坑记录：问题7 - 内置自动发现规则option.en缺失导致账号配置入口消失
+        逻辑：
+        1. 创建缺失的内置规则
+        2. 检查并更新已存在内置规则的option字段，确保与代码定义一致
+        3. 特别处理嵌套的icon、en等字段合并
+        """
         _, res = AutoDiscoveryRuleCRUD.search(page=1, page_size=100000, **request.values)
 
         rebuild = False
         exists = {i['name'] for i in res}
+        default_inner_map = {i['name']: i for i in copy.deepcopy(DEFAULT_INNER)}
         for i in copy.deepcopy(DEFAULT_INNER):
             if i['name'] not in exists:
                 i.pop('en', None)
                 AutoDiscoveryRuleCRUD().add(**i)
+                rebuild = True
+
+        for item in res:
+            default_rule = default_inner_map.get(item['name'])
+            if not default_rule or not item.get('is_inner'):
+                continue
+
+            default_option = default_rule.get('option') or {}
+            current_option = item.get('option') or {}
+            merged_option = copy.deepcopy(current_option)
+            changed = False
+
+            for key, value in default_option.items():
+                if isinstance(value, dict):
+                    merged_option.setdefault(key, {})
+                    for sub_key, sub_value in value.items():
+                        if merged_option[key].get(sub_key) != sub_value:
+                            merged_option[key][sub_key] = sub_value
+                            changed = True
+                elif merged_option.get(key) != value:
+                    merged_option[key] = value
+                    changed = True
+
+            if changed:
+                AutoDiscoveryRuleCRUD().update(item['id'], option=merged_option)
                 rebuild = True
 
         if rebuild:

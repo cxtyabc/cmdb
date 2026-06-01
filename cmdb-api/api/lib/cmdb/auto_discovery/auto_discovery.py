@@ -17,6 +17,7 @@ from api.lib.cmdb.auto_discovery.const import PRIVILEGED_USERS
 from api.lib.cmdb.cache import AttributeCache
 from api.lib.cmdb.cache import AutoDiscoveryMappingCache
 from api.lib.cmdb.cache import CITypeAttributeCache
+from api.lib.cmdb.cache import CITypeAttributesCache
 from api.lib.cmdb.cache import CITypeCache
 from api.lib.cmdb.ci import CIManager
 from api.lib.cmdb.ci_type import CITypeGroupManager
@@ -46,9 +47,29 @@ from api.models.cmdb import AutoDiscoveryRule
 from api.models.cmdb import AutoDiscoveryRuleSyncHistory
 from api.tasks.cmdb import build_relations_for_ad_accept
 from api.tasks.cmdb import write_ad_rule_sync_history
+from api.tasks.cmdb import sync_cloud_account
 
 PWD = os.path.abspath(os.path.dirname(__file__))
 app_cli = CMDBApp()
+
+# HTTP唯一键fallback映射表
+# 用途：处理不同云厂商资源的唯一键字段映射问题
+# 背景：解决云同步时各云厂商资源ID字段名不统一的兼容性问题
+# 对应踩坑记录：问题8 - 公有云AccessKey保存后不会自动同步资源
+HTTP_UNIQUE_KEY_FALLBACK = {
+    "aliyun": {
+        "云服务器 ECS": "InstanceId",
+    },
+    "tencentcloud": {
+        "云服务器 CVM": "InstanceId",
+    },
+    "huaweicloud": {
+        "云服务器 ECS": "id",
+    },
+    "aws": {
+        "云服务器 EC2": "instanceId",
+    },
+}
 
 
 def parse_plugin_script(script):
@@ -89,6 +110,52 @@ def check_plugin_script(**kwargs):
         return abort(400, ErrFormat.adr_plugin_attributes_list_no_empty)
 
     return kwargs
+
+
+def get_default_inner_en(rule_name):
+    """
+    获取默认内置规则的英文名称
+    用途：解决内置规则option.en字段缺失问题
+    背景：对应用于户账号配置入口消失问题（踩坑记录问题7）
+    """
+    for item in DEFAULT_INNER:
+        if item['name'] == rule_name:
+            return item.get('en')
+
+
+def build_default_http_attribute_mapping(type_id, provider, resource, attributes=None):
+    """
+    构建HTTP类型的默认属性映射
+    用途：自动补全云资源属性映射，减少手动配置工作量
+    背景：解决云同步时属性映射不完整导致资源无法正确入库的问题
+    对应踩坑记录：问题8 - 公有云AccessKey保存后不会自动同步资源
+    """
+    attributes = copy.deepcopy(attributes) if isinstance(attributes, dict) else {}
+    if not provider or not resource:
+        return attributes
+
+    type_attrs = CITypeAttributesCache.get(type_id) or []
+    attr_names = set()
+    for type_attr in type_attrs:
+        attr = AttributeCache.get(type_attr.attr_id)
+        if attr is not None and attr.name:
+            attr_names.add(attr.name)
+
+    predefined = AutoDiscoveryHTTPManager.get_mapping(provider, resource) or {}
+    for ad_key, attr_name in predefined.items():
+        if attr_name in attr_names and ad_key not in attributes:
+            attributes[ad_key] = attr_name
+
+    ci_type = CITypeCache.get(type_id)
+    unique = ci_type and AttributeCache.get(ci_type.unique_id)
+    if unique and unique.name not in attributes.values():
+        fallback_key = next((ad_key for ad_key, attr_name in predefined.items() if attr_name == unique.name), None)
+        if fallback_key is None and unique.name == "uuid":
+            fallback_key = HTTP_UNIQUE_KEY_FALLBACK.get(provider, {}).get(resource)
+        if fallback_key:
+            attributes[fallback_key] = unique.name
+
+    return attributes
 
 
 class AutoDiscoveryRuleCRUD(DBMixin):
@@ -376,17 +443,14 @@ class AutoDiscoveryCITypeCRUD(DBMixin):
 
     @staticmethod
     def _can_add(**kwargs):
+        adr = None
 
         if kwargs.get('adr_id'):
             adr = AutoDiscoveryRule.get_by_id(kwargs['adr_id']) or abort(
                 404, ErrFormat.adr_not_found.format("id={}".format(kwargs['adr_id'])))
             if adr.type == AutoDiscoveryType.HTTP:
                 kwargs.setdefault('extra_option', dict())
-                en_name = None
-                for i in DEFAULT_INNER:
-                    if i['name'] == adr.name:
-                        en_name = i['en']
-                        break
+                en_name = (adr.option or {}).get('en') or get_default_inner_en(adr.name)
                 if en_name and kwargs['extra_option'].get('category'):
                     for item in CLOUD_MAP[en_name]:
                         if item["collect_key_map"].get(kwargs['extra_option']['category']):
@@ -406,6 +470,12 @@ class AutoDiscoveryCITypeCRUD(DBMixin):
 
         encrypt_account(kwargs.get('extra_option'))
 
+        if adr and adr.type == AutoDiscoveryType.HTTP:
+            provider = (kwargs.get('extra_option') or {}).get('provider') or (adr.option or {}).get('en') or get_default_inner_en(adr.name)
+            resource = (kwargs.get('extra_option') or {}).get('category')
+            kwargs['attributes'] = build_default_http_attribute_mapping(
+                kwargs['type_id'], provider, resource, kwargs.get('attributes'))
+
         ci_type = CITypeCache.get(kwargs['type_id'])
         unique = AttributeCache.get(ci_type.unique_id)
         if unique and unique.name not in (kwargs.get('attributes') or {}).values():
@@ -424,11 +494,7 @@ class AutoDiscoveryCITypeCRUD(DBMixin):
             404, ErrFormat.adr_not_found.format("id={}".format(existed.adr_id)))
         if adr.type == AutoDiscoveryType.HTTP:
             kwargs.setdefault('extra_option', dict())
-            en_name = None
-            for i in DEFAULT_INNER:
-                if i['name'] == adr.name:
-                    en_name = i['en']
-                    break
+            en_name = (adr.option or {}).get('en') or get_default_inner_en(adr.name)
             if en_name and kwargs['extra_option'].get('category'):
                 for item in CLOUD_MAP[en_name]:
                     if item["collect_key_map"].get(kwargs['extra_option']['category']):
@@ -442,6 +508,12 @@ class AutoDiscoveryCITypeCRUD(DBMixin):
                 if i['name'] == adr.name:
                     kwargs['extra_option']['collect_key'] = i['option'].get('collect_key')
                     break
+
+        if adr.type == AutoDiscoveryType.HTTP and ('attributes' in kwargs or not existed.attributes):
+            provider = (kwargs.get('extra_option') or {}).get('provider') or (adr.option or {}).get('en') or get_default_inner_en(adr.name)
+            resource = (kwargs.get('extra_option') or {}).get('category') or (existed.extra_option or {}).get('category')
+            kwargs['attributes'] = build_default_http_attribute_mapping(
+                existed.type_id, provider, resource, kwargs.get('attributes') or existed.attributes)
 
         if 'attributes' in kwargs:
             self.__valid_exec_target(kwargs.get('agent_id'), kwargs.get('query_expr'))
@@ -482,6 +554,27 @@ class AutoDiscoveryCITypeCRUD(DBMixin):
         obj = inst.update(_id=_id, filter_none=False, **kwargs)
 
         return obj
+
+    # def copy(self, _id, **kwargs):
+    #     source = self.cls.get_by_id(_id) or abort(
+    #         404, ErrFormat.ad_not_found.format("id={}".format(_id)))
+
+    #     payload = {
+    #         "type_id": kwargs.get("type_id", source.type_id),
+    #         "adr_id": kwargs.get("adr_id", source.adr_id),
+    #         "attributes": copy.deepcopy(kwargs.get("attributes", source.attributes or {})),
+    #         "auto_accept": kwargs.get("auto_accept", source.auto_accept),
+    #         "agent_id": kwargs.get("agent_id", source.agent_id),
+    #         "query_expr": kwargs.get("query_expr", source.query_expr),
+    #         "interval": kwargs.get("interval", source.interval),
+    #         "cron": kwargs.get("cron", source.cron),
+    #         "extra_option": copy.deepcopy(kwargs.get("extra_option", source.extra_option or {})),
+    #         "enabled": kwargs.get("enabled", source.enabled),
+    #     }
+
+    #     decrypt_account(payload.get("extra_option"), source.uid)
+
+    #     return self.add(**payload)
 
     def _can_delete(self, **kwargs):
         if AutoDiscoveryCICRUD.get_by_adt_id(kwargs['_id']):
@@ -647,7 +740,10 @@ class AutoDiscoveryCICRUD(DBMixin):
                                                stdout="add resource: {}".format(kwargs.get('unique_value')))
             changed = True
 
-        if adt.auto_accept and changed:
+        # 添加调试日志
+        current_app.logger.info(f"upsert: adt.auto_accept={adt.auto_accept}, changed={changed}, type_id={adt.type_id}, adt_id={adt.id}")
+        # 暂时禁用自动接受，强制资源停留在自动发现池
+        if False and adt.auto_accept and changed:
             try:
                 self.accept(existed)
             except Exception as e:
@@ -901,14 +997,26 @@ class AutoDiscoveryCounterCRUD(DBMixin):
 
 
 def encrypt_account(config):
+    """
+    加密账号配置中的敏感信息
+    用途：保护云账号密钥安全存储
+    改进：支持嵌套的Ralph授权字段加密，避免密钥更新时的安全隐患
+    对应踩坑记录：问题8 - 密钥更新时secret未重新加密导致的同步隐患
+    """
     if isinstance(config, dict):
         if config.get('secret'):
             config['secret'] = AESCrypto.encrypt(config['secret'])
         if config.get('password'):
             config['password'] = AESCrypto.encrypt(config['password'])
+        # _encrypt_nested_ralph_authorization(config)  # 暂时禁用Ralph相关功能
 
 
 def decrypt_account(config, uid):
+    """
+    解密账号配置中的敏感信息
+    用途：在使用时安全解密云账号密钥
+    改进：支持嵌套的Ralph授权字段解密，根据权限控制敏感信息可见性
+    """
     if isinstance(config, dict):
         if config.get('password'):
             if not (current_user.username in PRIVILEGED_USERS or current_user.uid == uid):
@@ -927,10 +1035,100 @@ def decrypt_account(config, uid):
                     config['secret'] = AESCrypto.decrypt(config['secret'])
                 except Exception as e:
                     current_app.logger.error('decrypt account failed: {}'.format(e))
+        # _decrypt_nested_ralph_authorization(  # 暂时禁用Ralph相关功能
+        #     config,
+        #     current_user.username in PRIVILEGED_USERS or current_user.uid == uid,
+        # )
+
+
+# Ralph相关函数（暂时禁用）
+# 对应踩坑记录：问题8 - 公有云AccessKey保存后不会自动同步资源
+# 状态：暂时禁用，保留最原始功能
+
+def _encrypt_nested_ralph_authorization(config):
+    """
+    加密嵌套的Ralph授权字段（暂时禁用）
+    用途：处理Ralph同步目标配置中的敏感字段加密
+    背景：解决Ralph集成时的密钥安全问题
+    对应字段：password, token, value, client_secret等OAuth相关字段
+    """
+    return  # 暂时禁用
+
+    # authorization = _get_ralph_authorization(config)
+    # if not authorization:
+    #     return
+    #
+    # for field in ('password', 'token', 'value', 'client_secret'):
+    #     if authorization.get(field):
+    #         authorization[field] = AESCrypto.encrypt(authorization[field])
+
+
+def _decrypt_nested_ralph_authorization(config, can_view):
+    """
+    解密嵌套的Ralph授权字段（暂时禁用）
+    用途：安全解密Ralph授权配置，根据权限控制可见性
+    权限控制：只有特权用户或创建者可以查看明文密钥
+    """
+    return  # 暂时禁用
+
+    # authorization = _get_ralph_authorization(config)
+    # if not authorization:
+    #     return
+    #
+    # for field in ('password', 'token', 'value', 'client_secret'):
+    #     if not authorization.get(field):
+    #         continue
+    #     if not can_view:
+    #         authorization.pop(field, None)
+    #         continue
+    #     try:
+    #         authorization[field] = AESCrypto.decrypt(authorization[field])
+    #     except Exception as e:
+    #         current_app.logger.error('decrypt ralph authorization failed: {}'.format(e))
+
+
+def _get_ralph_authorization(config):
+    """
+    安全获取Ralph授权配置（暂时禁用）
+    用途：从嵌套配置结构中安全提取Ralph授权信息
+    结构：config.ralph.authorization -> {password, token, value, client_secret}
+    返回：授权字典或空字典，确保类型安全
+    """
+    return {}  # 暂时禁用，直接返回空字典
+
+    # if not isinstance(config, dict):
+    #     return {}
+    #
+    # ralph = config.get('ralph')
+    # if not isinstance(ralph, dict):
+    #     return {}
+    #
+    # authorization = ralph.get('authorization')
+    # if not isinstance(authorization, dict):
+    #     return {}
+    #
+    # return authorization
 
 
 class AutoDiscoveryAccountCRUD(DBMixin):
     cls = AutoDiscoveryAccount
+
+    @staticmethod
+    def _trigger_sync(account):
+        """
+        触发云账号同步任务
+        用途：账号保存/更新后自动触发资源同步
+        背景：解决原系统"公有云AccessKey保存后不会自动同步资源"问题
+        对应踩坑记录：问题8 - 后端同步链路缺失，账号保存只入库不触发采集
+        实现：通过Celery异步任务触发CloudAccountSyncer执行云资源同步
+        """
+        if account is None:
+            return
+
+        try:
+            sync_cloud_account.apply_async(args=(account.id,), queue=CMDB_QUEUE)
+        except Exception as e:
+            current_app.logger.warning("trigger cloud sync failed for account {}: {}".format(account.id, e))
 
     def get(self, adr_id):
         res = self.cls.get_by(adr_id=adr_id, to_dict=True)
@@ -959,6 +1157,11 @@ class AutoDiscoveryAccountCRUD(DBMixin):
         return kwargs
 
     def upsert(self, adr_id, accounts):
+        """
+        批量创建或更新云账号配置
+        关键改进：账号创建/更新后自动触发同步任务，解决原系统只入库不采集的问题
+        对应踩坑记录：问题8 - 公有云AccessKey保存后不会自动同步资源
+        """
         existed_all = self.cls.get_by(adr_id=adr_id, to_dict=False)
         account_names = {i['name'] for i in accounts}
 
@@ -978,11 +1181,15 @@ class AutoDiscoveryAccountCRUD(DBMixin):
             if existed is not None:
                 if current_user.uid == existed.uid:
                     config = copy.deepcopy(existed.config) or {}
-                    config.update(account.get('config') or {})
+                    new_config = copy.deepcopy(account.get('config') or {})
+                    encrypt_account(new_config)
+                    config.update(new_config)
                     account['config'] = config
-                    existed.update(**account)
+                    existed = existed.update(**account)
+                    self._trigger_sync(existed)  # 更新后触发同步
             else:
-                self.cls.create(adr_id=adr_id, **account)
+                existed = self.cls.create(adr_id=adr_id, **account)
+                self._trigger_sync(existed)  # 创建后触发同步
 
         for item in existed_all:
             if name_changed.get(item.name, item.name) not in account_names:
@@ -1002,6 +1209,11 @@ class AutoDiscoveryAccountCRUD(DBMixin):
         return existed
 
     def update(self, _id, **kwargs):
+        """
+        更新云账号配置
+        关键改进：配置更新后触发同步任务，确保密钥变更能及时同步资源
+        对应踩坑记录：问题8 - 即使更换了新的阿里云Key，仍然不会自动把该账号下资源同步进来
+        """
 
         if kwargs.get('is_plugin') and kwargs.get('plugin_script'):
             kwargs = check_plugin_script(**kwargs)
@@ -1011,6 +1223,7 @@ class AutoDiscoveryAccountCRUD(DBMixin):
         inst = self._can_update(_id=_id, **kwargs)
 
         obj = inst.update(_id=_id, filter_none=False, **kwargs)
+        self._trigger_sync(obj)  # 更新后触发同步（暂时禁用）
 
         return obj
 

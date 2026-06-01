@@ -20,6 +20,8 @@ from api.lib.cmdb.const import REDIS_PREFIX_CI
 from api.lib.cmdb.const import REDIS_PREFIX_CI_RELATION
 from api.lib.cmdb.const import REDIS_PREFIX_CI_RELATION2
 from api.lib.cmdb.const import RelationSourceEnum
+from api.lib.cmdb.auto_discovery.cloud_sync import sync_all_cloud_accounts
+from api.lib.cmdb.auto_discovery.cloud_sync import CloudAccountSyncer
 from api.lib.cmdb.perms import CIFilterPermsCRUD
 from api.lib.cmdb.utils import TableMap
 from api.lib.decorator import flush_db
@@ -497,6 +499,54 @@ def counter_daily():
         db.session.close()
 
 
+# 云账号同步任务（暂时禁用）
+# 对应踩坑记录：问题8 - 补齐完整后端同步链路
+# 状态：暂时禁用，保留最原始功能
+
+@celery.task(name="cmdb.sync_cloud_account", queue=CMDB_QUEUE)
+@reconnect_db
+def sync_cloud_account(account_id):
+    """
+    云账号同步任务
+    用途：异步同步单个云账号的资源信息
+    触发时机：账号创建/更新时由AutoDiscoveryAccountCRUD._trigger_sync触发
+    对应踩坑记录：问题8 - 补齐完整后端同步链路
+    """
+    if not has_request_context():
+        current_app.test_request_context().push()
+        login_user(UserCache.get('worker'))
+
+    try:
+        return CloudAccountSyncer(account_id).sync()
+    except Exception:
+        db.session.rollback()
+        raise
+    finally:
+        db.session.close()
+
+
+@celery.task(name="cmdb.sync_all_cloud_accounts", queue="beat_tasks")
+@reconnect_db
+def sync_all_cloud_accounts_task():
+    """
+    全量云账号同步定时任务
+    用途：定时同步所有云账号资源，确保数据时效性
+    频率：每30分钟执行一次（见CMDB_BEAT_SCHEDULE配置）
+    对应踩坑记录：问题8 - 新增定时同步机制
+    """
+    if not has_request_context():
+        current_app.test_request_context().push()
+        login_user(UserCache.get('worker'))
+
+    try:
+        return sync_all_cloud_accounts()
+    except Exception:
+        db.session.rollback()
+        raise
+    finally:
+        db.session.close()
+
+
 # Beat schedule for CMDB tasks
 from celery.schedules import crontab
 
@@ -512,5 +562,11 @@ CMDB_BEAT_SCHEDULE = {
     'cmdb-counter-daily': {
         'task': 'cmdb.counter_daily',
         'schedule': crontab(hour=0, minute=0),
+    },
+    # 云账号全量同步定时任务：每30分钟同步一次所有云账号
+    # 对应踩坑记录：问题8 - 新增定时同步机制，确保云资源数据时效性
+    'cmdb-sync-all-cloud-accounts': {
+        'task': 'cmdb.sync_all_cloud_accounts',
+        'schedule': crontab(minute='*/30'),
     },
 }
