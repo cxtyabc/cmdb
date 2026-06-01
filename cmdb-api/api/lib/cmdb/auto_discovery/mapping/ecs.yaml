@@ -1,0 +1,116 @@
+mapping:
+  uuid:
+    aliyun:
+      key: InstanceId
+    tencentcloud:
+      key: Uuid
+    huaweicloud:
+      key: id
+    aws:
+      key: instanceId
+  name:
+    aliyun:
+      key: InstanceName
+    tencentcloud:
+      key: InstanceName
+    huaweicloud:
+      key: name
+    aws:
+      key: privateDnsName
+  status:
+    aliyun:
+      key: Status
+      map:
+        Pending: 待用
+        Starting: 待用
+        Running: 在线
+        Stopping: 待用
+        Stopped: 下线
+        Rebooting: 维修
+    tencentcloud:
+      key: InstanceState
+      map:
+        PENDING: 待用
+        STARTING: 待用
+        RUNNING: 在线
+        STOPPING: 待用
+        STOPPED: 下线
+        REBOOTING: 维修
+        SHUTDOWN: 下线
+        TERMINATING: 维修
+    huaweicloud:
+      key: status
+      map:
+        ACTIVE: 在线
+        BUILD: 待用
+        REBOOT: 维修
+        HARD_REBOOT: 维修
+        REBUILD: 维修
+        RESIZE: 待用
+        MIGRATING: 待用
+        PAUSED: 待用
+        SHUTOFF: 下线
+        ERROR: 维修
+        SHELVED: 下线
+        SHELVED_OFFLOADED: 下线
+        SUSPENDED: 待用
+        SOFT_DELETED: 下线
+        DELETED: 下线
+    aws:
+      key: instanceState.name
+      map:
+        pending: 待用
+        running: 在线
+        stopping: 待用
+        stopped: 下线
+        shutting-down: 下线
+        terminated: 下线
+  vserver_name:
+    aliyun:
+      key: InstanceName
+    tencentcloud:
+      key: InstanceName
+    huaweicloud:
+      key: name
+    aws:
+      key: privateDnsName
+  private_ip:
+    aliyun:
+      key: VpcAttributes.PrivateIpAddress.IpAddress[0]
+    tencentcloud:
+      key: PrivateIpAddresses.[0]
+    huaweicloud:
+      key: addresses.*[0].addr
+    aws:
+      key: privateIpAddress
+  os_version:
+    aliyun:
+      key: OSName
+    tencentcloud:
+      key: OsName
+    huaweicloud:
+      key: metadata.image_name
+    aws:
+      key: platformDetails
+  hd_size:
+    tencentcloud:
+      key: SystemDisk.DiskSize
+  cpu_count:
+    aliyun:
+      key: Cpu
+    tencentcloud:
+      key: CPU
+  ram_size:
+    aliyun:
+      key: Memory
+    tencentcloud:
+      key: Memory
+  vserver_type:
+    aliyun:
+      key: InstanceType
+    tencentcloud:
+      key: InstanceType
+    huaweicloud:
+      key: flavor.id
+    aws:
+      key: instanceType

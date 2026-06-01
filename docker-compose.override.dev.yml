@@ -1,0 +1,26 @@
+services:
+  cmdb-api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-API-optimized
+    image: veops-cmdb-api-local:dev
+    volumes:
+      # 挂载代码目录，修改代码立即生效，无需重建
+      - ./cmdb-api:/data/apps/cmdb:rw
+      # 缓存 pip 下载
+      - pip-cache:/root/.cache/pip
+    environment:
+      - FLASK_DEBUG=1  # 开发模式
+      - FLASK_ENV=development
+
+  cmdb-ui:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-UI
+    image: veops-cmdb-ui-local:dev
+    volumes:
+      - ./cmdb-ui:/usr/share/nginx/html:rw
+
+volumes:
+  pip-cache:
+    driver: local

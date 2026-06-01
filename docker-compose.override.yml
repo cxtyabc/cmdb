@@ -1,0 +1,11 @@
+services:
+  cmdb-api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-API
+    image: veops-cmdb-api-local:dev
+  cmdb-ui:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-UI
+    image: veops-cmdb-ui-local:dev

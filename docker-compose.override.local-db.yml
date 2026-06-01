@@ -1,0 +1,50 @@
+services:
+  cmdb-api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-API-optimized
+    image: veops-cmdb-api-local:dev
+    volumes:
+      # 挂载代码目录，修改代码立即生效，无需重建
+      - ./cmdb-api:/data/apps/cmdb:rw
+      # 缓存 pip 下载
+      - pip-cache:/root/.cache/pip
+    environment:
+      # 连接本地数据库配置
+      - MYSQL_HOST=host.docker.internal  # Mac/Windows
+      # - MYSQL_HOST=172.17.0.1  # Linux 替代这行
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=cmdb
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=your_local_password
+      - REDIS_HOST=host.docker.internal  # Mac/Windows
+      # - REDIS_HOST=172.17.0.1  # Linux 替代这行
+      - REDIS_PORT=6379
+      - FLASK_DEBUG=1
+      - FLASK_ENV=development
+    # 使用 host 网络模式，可以直接访问宿主机服务
+    network_mode: host
+
+  cmdb-ui:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-UI
+    image: veops-cmdb-ui-local:dev
+    volumes:
+      - ./cmdb-ui:/usr/share/nginx/html:rw
+    # UI 也使用 host 网络
+    network_mode: host
+    environment:
+      - CMDB_API_HOST=localhost
+      - NGINX_PORT=8000
+      - TZ=Asia/Shanghai
+
+  # 注释掉数据库和缓存服务，使用本地服务
+  # cmdb-db:
+  #   ...
+  # cmdb-cache:
+  #   ...
+
+volumes:
+  pip-cache:
+    driver: local

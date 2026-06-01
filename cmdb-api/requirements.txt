@@ -36,6 +36,13 @@ cryptography>=41.0.2
 PyJWT==2.4.0
 PyMySQL==1.1.0
 ldap3==2.9.1
+boto3>=1.34.0
+tencentcloud-sdk-python>=3.0.0
+huaweicloudsdkcore>=3.1.92
+huaweicloudsdkecs>=3.1.92
+aliyun-python-sdk-core>=2.16.0
+aliyun-python-sdk-ecs>=4.24.69
+aliyun-python-sdk-vpc>=3.0.22
 PyYAML==6.0.1
 redis==4.6.0
 python-redis-lock==4.0.0
