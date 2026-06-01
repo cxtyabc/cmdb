@@ -3,18 +3,23 @@ FROM python:3.8-alpine AS cmdb-api
 
 LABEL description="Python3.8,cmdb"
 
-COPY cmdb-api /data/apps/cmdb
-
 WORKDIR /data/apps/cmdb
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+# 先复制依赖文件，利用Docker缓存
+COPY cmdb-api/requirements.txt .
 
-RUN apk add --no-cache tzdata gcc musl-dev libffi-dev openldap-dev python3-dev jpeg-dev zlib-dev build-base
+# 配置Alpine源并安装系统依赖
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
+    apk add --no-cache tzdata gcc musl-dev libffi-dev openldap-dev python3-dev jpeg-dev zlib-dev build-base
 
-ENV TZ=Asia/Shanghai
+# 安装Python依赖（只有requirements.txt变化时才重新安装）
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN pip install  --no-cache-dir -r requirements.txt \
-    && if [ -f settings.example.py ]; then \
+# 复制应用代码
+COPY cmdb-api /data/apps/cmdb
+
+# 配置settings.py
+RUN if [ -f settings.example.py ]; then \
         cp settings.example.py settings.py && \
         sed -i "s#{user}:{password}@127.0.0.1:3306/{db}#cmdb:123456@cmdb-db:3306/cmdb#g" settings.py && \
         sed -i "s#redis://127.0.0.1#redis://cmdb-cache#g" settings.py && \
@@ -24,6 +29,8 @@ RUN pip install  --no-cache-dir -r requirements.txt \
         echo "settings.example.py not found!"; \
         ls -la; \
     fi
+
+ENV TZ=Asia/Shanghai
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
 RUN chmod +x /wait
