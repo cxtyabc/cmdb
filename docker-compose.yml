@@ -16,10 +16,6 @@ services:
       timeout: 5s
       retries: 5
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    networks:
-      new:
-        aliases:
-          - mysql
     ports:
       - '23306:3306'
 
@@ -35,10 +31,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    networks:
-      new:
-        aliases:
-          - redis
 
   cmdb-api:
     image: registry.cn-hangzhou.aliyuncs.com/veops/cmdb-api:2.6.1
@@ -48,6 +40,16 @@ services:
     environment:
       TZ: Asia/Shanghai
       WAIT_HOSTS: cmdb-db:3306, cmdb-cache:6379
+      MYSQL_HOST: cmdb-db
+      MYSQL_PORT: 3306
+      MYSQL_USER: cmdb
+      MYSQL_PASSWORD: 123456
+      MYSQL_DATABASE: cmdb
+      MYSQL_ROOT_PASSWORD: 123456
+      REDIS_HOST: cmdb-cache
+      REDIS_PORT: 6379
+      CACHE_REDIS_HOST: cmdb-cache
+      CACHE_REDIS_PORT: 6379
       SYSTEM_DEFAULT_LANGUAGE:  # en-US, zh-CN
     depends_on:
       cmdb-db:
@@ -55,7 +57,7 @@ services:
       cmdb-cache:
         condition: service_healthy
     command:
-      - /bin/sh
+      - sh
       - -c
       - |
         sed -i "s#USE_ACL = False#USE_ACL = True#g" settings.py
@@ -63,10 +65,10 @@ services:
         flask db-setup
         flask common-check-new-columns
         gunicorn --workers=4 autoapp:app -b 0.0.0.0:5000 -D
-        
+
         celery -A celery_worker.celery worker -E -Q one_cmdb_async --autoscale=4,1 --logfile=one_cmdb_async.log -D
-        celery -A celery_worker.celery worker -E -Q acl_async --logfile=one_acl_async.log --autoscale=4,1 -D
-        
+        celery -A celery_worker.celery worker -E -Q acl_async --logfile=one_acl_async.log --autoscale=4,1 --D
+
         nohup flask cmdb-trigger > trigger.log 2>&1 &
         flask cmdb-init-cache
         flask cmdb-init-acl
@@ -75,10 +77,6 @@ services:
         nohup flask cmdb-patch -v 2.4.17 &
 
         celery -A celery_worker.celery worker --beat -E -Q beat_tasks --loglevel=info --autoscale=3,1 --max-tasks-per-child=10 > counter.log 2>&1
-    networks:
-      new:
-        aliases:
-          - cmdb-api
     healthcheck:
       timeout: 3s
       interval: 5s
@@ -98,13 +96,11 @@ services:
     volumes:
       - ./docs/nginx.cmdb.conf.example:/etc/nginx/conf.d/nginx.cmdb.conf.example
     command:
-      - /bin/sh
+      - sh
       - -c
       - |
         envsubst '$$CMDB_API_HOST  $$NGINX_PORT' < /etc/nginx/conf.d/nginx.cmdb.conf.example > /etc/nginx/conf.d/cmdb.conf
         nginx -g  'daemon off;'
-    networks:
-      - new
     ports:
       - "8000:80"
 
@@ -117,6 +113,6 @@ volumes:
     name: cmdb_cache-data
 
 networks:
-  new:
+  default:
+    name: veops_cmdb_network
     driver: bridge
-    name: cmdb_network

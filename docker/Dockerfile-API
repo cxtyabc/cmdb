@@ -9,8 +9,11 @@ WORKDIR /data/apps/cmdb
 COPY cmdb-api/requirements.txt .
 
 # 配置Alpine源并安装系统依赖
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
-    apk add --no-cache tzdata gcc musl-dev libffi-dev openldap-dev python3-dev jpeg-dev zlib-dev build-base
+# 注：根据部署踩坑记录，国内网络环境下需要使用稳定的镜像源
+# 当前阿里云Alpine源v3.20可能存在不稳定问题，先尝试使用官方源
+RUN apk add --no-cache tzdata gcc musl-dev libffi-dev openldap-dev python3-dev jpeg-dev zlib-dev build-base || \
+    (sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
+    apk add --no-cache tzdata gcc musl-dev libffi-dev openldap-dev python3-dev jpeg-dev zlib-dev build-base)
 
 # 安装Python依赖（只有requirements.txt变化时才重新安装）
 RUN pip install --no-cache-dir -r requirements.txt
