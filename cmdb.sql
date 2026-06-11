@@ -1,6 +1,7 @@
 SET FOREIGN_KEY_CHECKS = 0;
 SET NAMES utf8mb4;
 -- acl_apps DDL
+DROP TABLE IF EXISTS `acl_apps`;
 CREATE TABLE `acl_apps` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -14,6 +15,7 @@ INDEX `ix_acl_apps_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_acl_apps_name`(`name` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 10 ROW_FORMAT = Dynamic;
 -- acl_audit_login_logs DDL
+DROP TABLE IF EXISTS `acl_audit_login_logs`;
 CREATE TABLE `acl_audit_login_logs` (`created_at` DATETIME NULL,
 `id` INT NOT NULL AUTO_INCREMENT,
 `username` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
@@ -26,8 +28,9 @@ CREATE TABLE `acl_audit_login_logs` (`created_at` DATETIME NULL,
 `logout_at` DATETIME NULL,
 INDEX `ix_acl_audit_login_logs_created_at`(`created_at` ASC) USING BTREE,
 INDEX `ix_acl_audit_login_logs_username`(`username` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 6 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 37 ROW_FORMAT = Dynamic;
 -- acl_audit_permission_logs DDL
+DROP TABLE IF EXISTS `acl_audit_permission_logs`;
 CREATE TABLE `acl_audit_permission_logs` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -48,8 +51,9 @@ INDEX `ix_acl_audit_permission_logs_operate_type`(`operate_type` ASC) USING BTRE
 INDEX `ix_acl_audit_permission_logs_operate_uid`(`operate_uid` ASC) USING BTREE,
 INDEX `ix_acl_audit_permission_logs_resource_type_id`(`resource_type_id` ASC) USING BTREE,
 INDEX `ix_acl_audit_permission_logs_rid`(`rid` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 79 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 80 ROW_FORMAT = Dynamic;
 -- acl_audit_resource_logs DDL
+DROP TABLE IF EXISTS `acl_audit_resource_logs`;
 CREATE TABLE `acl_audit_resource_logs` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -69,8 +73,9 @@ INDEX `ix_acl_audit_resource_logs_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_acl_audit_resource_logs_link_id`(`link_id` ASC) USING BTREE,
 INDEX `ix_acl_audit_resource_logs_operate_type`(`operate_type` ASC) USING BTREE,
 INDEX `ix_acl_audit_resource_logs_operate_uid`(`operate_uid` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 31 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 32 ROW_FORMAT = Dynamic;
 -- acl_audit_role_logs DDL
+DROP TABLE IF EXISTS `acl_audit_role_logs`;
 CREATE TABLE `acl_audit_role_logs` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -90,8 +95,9 @@ INDEX `ix_acl_audit_role_logs_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_acl_audit_role_logs_link_id`(`link_id` ASC) USING BTREE,
 INDEX `ix_acl_audit_role_logs_operate_type`(`operate_type` ASC) USING BTREE,
 INDEX `ix_acl_audit_role_logs_operate_uid`(`operate_uid` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 2 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 10 ROW_FORMAT = Dynamic;
 -- acl_audit_trigger_logs DDL
+DROP TABLE IF EXISTS `acl_audit_trigger_logs`;
 CREATE TABLE `acl_audit_trigger_logs` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -112,6 +118,7 @@ INDEX `ix_acl_audit_trigger_logs_operate_uid`(`operate_uid` ASC) USING BTREE,
 INDEX `ix_acl_audit_trigger_logs_trigger_id`(`trigger_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- acl_operation_records DDL
+DROP TABLE IF EXISTS `acl_operation_records`;
 CREATE TABLE `acl_operation_records` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -124,8 +131,9 @@ CREATE TABLE `acl_operation_records` (`deleted_at` DATETIME NULL,
 INDEX `ix_acl_operation_records_app`(`app` ASC) USING BTREE,
 INDEX `ix_acl_operation_records_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_acl_operation_records_rolename`(`rolename` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 37 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 43 ROW_FORMAT = Dynamic;
 -- acl_permissions DDL
+DROP TABLE IF EXISTS `acl_permissions`;
 CREATE TABLE `acl_permissions` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -139,6 +147,7 @@ INDEX `ix_acl_permissions_deleted`(`deleted` ASC) USING BTREE,
 INDEX `resource_type_id`(`resource_type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 25 ROW_FORMAT = Dynamic;
 -- acl_resource_group_items DDL
+DROP TABLE IF EXISTS `acl_resource_group_items`;
 CREATE TABLE `acl_resource_group_items` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -151,6 +160,7 @@ INDEX `ix_acl_resource_group_items_deleted`(`deleted` ASC) USING BTREE,
 INDEX `resource_id`(`resource_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- acl_resource_groups DDL
+DROP TABLE IF EXISTS `acl_resource_groups`;
 CREATE TABLE `acl_resource_groups` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -167,6 +177,7 @@ INDEX `ix_acl_resource_groups_uid`(`uid` ASC) USING BTREE,
 INDEX `resource_type_id`(`resource_type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- acl_resource_types DDL
+DROP TABLE IF EXISTS `acl_resource_types`;
 CREATE TABLE `acl_resource_types` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -180,6 +191,7 @@ INDEX `ix_acl_resource_types_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_acl_resource_types_name`(`name` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 26 ROW_FORMAT = Dynamic;
 -- acl_resources DDL
+DROP TABLE IF EXISTS `acl_resources`;
 CREATE TABLE `acl_resources` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -193,8 +205,9 @@ INDEX `app_id`(`app_id` ASC) USING BTREE,
 INDEX `ix_acl_resources_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_acl_resources_uid`(`uid` ASC) USING BTREE,
 INDEX `resource_type_id`(`resource_type_id` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 33 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 34 ROW_FORMAT = Dynamic;
 -- acl_role_permissions DDL
+DROP TABLE IF EXISTS `acl_role_permissions`;
 CREATE TABLE `acl_role_permissions` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -211,8 +224,9 @@ INDEX `ix_acl_role_permissions_deleted`(`deleted` ASC) USING BTREE,
 INDEX `perm_id`(`perm_id` ASC) USING BTREE,
 INDEX `resource_id`(`resource_id` ASC) USING BTREE,
 INDEX `rid`(`rid` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 292 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 293 ROW_FORMAT = Dynamic;
 -- acl_role_relations DDL
+DROP TABLE IF EXISTS `acl_role_relations`;
 CREATE TABLE `acl_role_relations` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -225,8 +239,9 @@ INDEX `app_id`(`app_id` ASC) USING BTREE,
 INDEX `child_id`(`child_id` ASC) USING BTREE,
 INDEX `ix_acl_role_relations_deleted`(`deleted` ASC) USING BTREE,
 INDEX `parent_id`(`parent_id` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 3 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 7 ROW_FORMAT = Dynamic;
 -- acl_roles DDL
+DROP TABLE IF EXISTS `acl_roles`;
 CREATE TABLE `acl_roles` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -242,8 +257,9 @@ CREATE TABLE `acl_roles` (`deleted_at` DATETIME NULL,
 INDEX `app_id`(`app_id` ASC) USING BTREE,
 INDEX `ix_acl_roles_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_acl_roles_name`(`name` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 60 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 62 ROW_FORMAT = Dynamic;
 -- acl_triggers DDL
+DROP TABLE IF EXISTS `acl_triggers`;
 CREATE TABLE `acl_triggers` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -262,6 +278,7 @@ INDEX `ix_acl_triggers_deleted`(`deleted` ASC) USING BTREE,
 INDEX `resource_type_id`(`resource_type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_ad_accounts DDL
+DROP TABLE IF EXISTS `c_ad_accounts`;
 CREATE TABLE `c_ad_accounts` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -276,6 +293,7 @@ INDEX `ix_c_ad_accounts_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_c_ad_accounts_uid`(`uid` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 2 ROW_FORMAT = Dynamic;
 -- c_ad_ci DDL
+DROP TABLE IF EXISTS `c_ad_ci`;
 CREATE TABLE `c_ad_ci` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -295,8 +313,9 @@ INDEX `ix_c_ad_ci_ci_id`(`ci_id` ASC) USING BTREE,
 INDEX `ix_c_ad_ci_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_c_ad_ci_unique_value`(`unique_value` ASC) USING BTREE,
 INDEX `type_id`(`type_id` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 7 ROW_FORMAT = Dynamic;
 -- c_ad_ci_type_relations DDL
+DROP TABLE IF EXISTS `c_ad_ci_type_relations`;
 CREATE TABLE `c_ad_ci_type_relations` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -312,6 +331,7 @@ INDEX `peer_attr_id`(`peer_attr_id` ASC) USING BTREE,
 INDEX `peer_type_id`(`peer_type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_ad_ci_types DDL
+DROP TABLE IF EXISTS `c_ad_ci_types`;
 CREATE TABLE `c_ad_ci_types` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -336,6 +356,7 @@ INDEX `ix_c_ad_ci_types_uid`(`uid` ASC) USING BTREE,
 INDEX `type_id`(`type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 6 ROW_FORMAT = Dynamic;
 -- c_ad_counter DDL
+DROP TABLE IF EXISTS `c_ad_counter`;
 CREATE TABLE `c_ad_counter` (`created_at` DATETIME NULL,
 `id` INT NOT NULL AUTO_INCREMENT,
 `type_id` INT NULL,
@@ -349,16 +370,18 @@ CREATE TABLE `c_ad_counter` (`created_at` DATETIME NULL,
 `last_week_count` INT NULL,
 INDEX `ix_c_ad_counter_created_at`(`created_at` ASC) USING BTREE,
 INDEX `ix_c_ad_counter_type_id`(`type_id` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 3 ROW_FORMAT = Dynamic;
 -- c_ad_exec_histories DDL
+DROP TABLE IF EXISTS `c_ad_exec_histories`;
 CREATE TABLE `c_ad_exec_histories` (`created_at` DATETIME NULL,
 `id` INT NOT NULL AUTO_INCREMENT,
 `type_id` INT NULL,
 `stdout` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
 INDEX `ix_c_ad_exec_histories_created_at`(`created_at` ASC) USING BTREE,
 INDEX `ix_c_ad_exec_histories_type_id`(`type_id` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 17 ROW_FORMAT = Dynamic;
 -- c_ad_rule_sync_histories DDL
+DROP TABLE IF EXISTS `c_ad_rule_sync_histories`;
 CREATE TABLE `c_ad_rule_sync_histories` (`created_at` DATETIME NULL,
 `id` INT NOT NULL AUTO_INCREMENT,
 `adt_id` INT NULL,
@@ -369,6 +392,7 @@ INDEX `adt_id`(`adt_id` ASC) USING BTREE,
 INDEX `ix_c_ad_rule_sync_histories_created_at`(`created_at` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_ad_rules DDL
+DROP TABLE IF EXISTS `c_ad_rules`;
 CREATE TABLE `c_ad_rules` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -389,6 +413,7 @@ INDEX `ix_c_ad_rules_owner`(`owner` ASC) USING BTREE,
 INDEX `ix_c_ad_rules_type`(`type` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 23 ROW_FORMAT = Dynamic;
 -- c_attribute_histories DDL
+DROP TABLE IF EXISTS `c_attribute_histories`;
 CREATE TABLE `c_attribute_histories` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -404,8 +429,9 @@ INDEX `ix_c_attribute_histories_attr_id`(`attr_id` ASC) USING BTREE,
 INDEX `ix_c_attribute_histories_ci_id`(`ci_id` ASC) USING BTREE,
 INDEX `ix_c_attribute_histories_deleted`(`deleted` ASC) USING BTREE,
 INDEX `record_id`(`record_id` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 8 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 76 ROW_FORMAT = Dynamic;
 -- c_attributes DDL
+DROP TABLE IF EXISTS `c_attributes`;
 CREATE TABLE `c_attributes` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -438,6 +464,7 @@ INDEX `idx_c_attributes_uid`(`uid` ASC) USING BTREE,
 INDEX `ix_c_attributes_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 115 ROW_FORMAT = Dynamic;
 -- c_c_d DDL
+DROP TABLE IF EXISTS `c_c_d`;
 CREATE TABLE `c_c_d` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -457,6 +484,7 @@ INDEX `ix_c_custom_dashboard_deleted`(`deleted` ASC) USING BTREE,
 INDEX `type_id`(`type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 22 ROW_FORMAT = Dynamic;
 -- c_c_t_t DDL
+DROP TABLE IF EXISTS `c_c_t_t`;
 CREATE TABLE `c_c_t_t` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -470,6 +498,7 @@ INDEX `ix_c_ci_type_triggers_deleted`(`deleted` ASC) USING BTREE,
 INDEX `type_id`(`type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 2 ROW_FORMAT = Dynamic;
 -- c_c_t_u_c DDL
+DROP TABLE IF EXISTS `c_c_t_u_c`;
 CREATE TABLE `c_c_t_u_c` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -481,6 +510,7 @@ INDEX `ix_c_ci_type_unique_constraints_deleted`(`deleted` ASC) USING BTREE,
 INDEX `type_id`(`type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_cfp DDL
+DROP TABLE IF EXISTS `c_cfp`;
 CREATE TABLE `c_cfp` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -497,6 +527,7 @@ INDEX `ix_c_cfp_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_c_cfp_e`(`e` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 2 ROW_FORMAT = Dynamic;
 -- c_choice_floats DDL
+DROP TABLE IF EXISTS `c_choice_floats`;
 CREATE TABLE `c_choice_floats` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -509,6 +540,7 @@ INDEX `attr_id`(`attr_id` ASC) USING BTREE,
 INDEX `ix_c_choice_floats_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_choice_integers DDL
+DROP TABLE IF EXISTS `c_choice_integers`;
 CREATE TABLE `c_choice_integers` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -521,6 +553,7 @@ INDEX `attr_id`(`attr_id` ASC) USING BTREE,
 INDEX `ix_c_choice_integers_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_choice_texts DDL
+DROP TABLE IF EXISTS `c_choice_texts`;
 CREATE TABLE `c_choice_texts` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -533,6 +566,7 @@ INDEX `attr_id`(`attr_id` ASC) USING BTREE,
 INDEX `ix_c_choice_texts_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 153 ROW_FORMAT = Dynamic;
 -- c_ci_filter_perms DDL
+DROP TABLE IF EXISTS `c_ci_filter_perms`;
 CREATE TABLE `c_ci_filter_perms` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -550,6 +584,7 @@ INDEX `ix_c_ci_filter_perms_rid`(`rid` ASC) USING BTREE,
 INDEX `type_id`(`type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_ci_relations DDL
+DROP TABLE IF EXISTS `c_ci_relations`;
 CREATE TABLE `c_ci_relations` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -569,6 +604,7 @@ INDEX `relation_type_id`(`relation_type_id` ASC) USING BTREE,
 INDEX `second_ci_id`(`second_ci_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 4 ROW_FORMAT = Dynamic;
 -- c_ci_trigger_histories DDL
+DROP TABLE IF EXISTS `c_ci_trigger_histories`;
 CREATE TABLE `c_ci_trigger_histories` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -588,6 +624,7 @@ INDEX `record_id`(`record_id` ASC) USING BTREE,
 INDEX `trigger_id`(`trigger_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci AUTO_INCREMENT = 19 ROW_FORMAT = Dynamic;
 -- c_ci_type_attribute_group_items DDL
+DROP TABLE IF EXISTS `c_ci_type_attribute_group_items`;
 CREATE TABLE `c_ci_type_attribute_group_items` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -601,6 +638,7 @@ INDEX `group_id`(`group_id` ASC) USING BTREE,
 INDEX `ix_c_ci_type_attribute_group_items_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 386 ROW_FORMAT = Dynamic;
 -- c_ci_type_attribute_groups DDL
+DROP TABLE IF EXISTS `c_ci_type_attribute_groups`;
 CREATE TABLE `c_ci_type_attribute_groups` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -613,6 +651,7 @@ INDEX `ix_c_ci_type_attribute_groups_deleted`(`deleted` ASC) USING BTREE,
 INDEX `type_id`(`type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 53 ROW_FORMAT = Dynamic;
 -- c_ci_type_attributes DDL
+DROP TABLE IF EXISTS `c_ci_type_attributes`;
 CREATE TABLE `c_ci_type_attributes` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -628,6 +667,7 @@ INDEX `ix_c_ci_type_attributes_deleted`(`deleted` ASC) USING BTREE,
 INDEX `type_id`(`type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 445 ROW_FORMAT = Dynamic;
 -- c_ci_type_group_items DDL
+DROP TABLE IF EXISTS `c_ci_type_group_items`;
 CREATE TABLE `c_ci_type_group_items` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -641,6 +681,7 @@ INDEX `ix_c_ci_type_group_items_deleted`(`deleted` ASC) USING BTREE,
 INDEX `type_id`(`type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 48 ROW_FORMAT = Dynamic;
 -- c_ci_type_groups DDL
+DROP TABLE IF EXISTS `c_ci_type_groups`;
 CREATE TABLE `c_ci_type_groups` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -651,6 +692,7 @@ CREATE TABLE `c_ci_type_groups` (`deleted_at` DATETIME NULL,
 INDEX `ix_c_ci_type_groups_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 8 ROW_FORMAT = Dynamic;
 -- c_ci_type_histories DDL
+DROP TABLE IF EXISTS `c_ci_type_histories`;
 CREATE TABLE `c_ci_type_histories` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -669,6 +711,7 @@ INDEX `ix_c_ci_type_histories_type_id`(`type_id` ASC) USING BTREE,
 INDEX `ix_c_ci_type_histories_uid`(`uid` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 367 ROW_FORMAT = Dynamic;
 -- c_ci_type_inheritance DDL
+DROP TABLE IF EXISTS `c_ci_type_inheritance`;
 CREATE TABLE `c_ci_type_inheritance` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -681,6 +724,7 @@ INDEX `ix_c_ci_type_inheritance_deleted`(`deleted` ASC) USING BTREE,
 INDEX `parent_id`(`parent_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_ci_type_relations DDL
+DROP TABLE IF EXISTS `c_ci_type_relations`;
 CREATE TABLE `c_ci_type_relations` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -700,6 +744,7 @@ INDEX `parent_id`(`parent_id` ASC) USING BTREE,
 INDEX `relation_type_id`(`relation_type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 25 ROW_FORMAT = Dynamic;
 -- c_ci_types DDL
+DROP TABLE IF EXISTS `c_ci_types`;
 CREATE TABLE `c_ci_types` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -720,6 +765,7 @@ INDEX `ix_c_ci_types_deleted`(`deleted` ASC) USING BTREE,
 INDEX `unique_id`(`unique_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 40 ROW_FORMAT = Dynamic;
 -- c_cis DDL
+DROP TABLE IF EXISTS `c_cis`;
 CREATE TABLE `c_cis` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -732,8 +778,9 @@ CREATE TABLE `c_cis` (`deleted_at` DATETIME NULL,
 `updated_by` VARCHAR(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL,
 INDEX `ix_c_cis_deleted`(`deleted` ASC) USING BTREE,
 INDEX `type_id`(`type_id` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 5 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 11 ROW_FORMAT = Dynamic;
 -- c_dcim_operation_histories DDL
+DROP TABLE IF EXISTS `c_dcim_operation_histories`;
 CREATE TABLE `c_dcim_operation_histories` (`created_at` DATETIME NULL,
 `id` INT NOT NULL AUTO_INCREMENT,
 `uid` INT NULL,
@@ -746,6 +793,7 @@ INDEX `ix_c_dcim_operation_histories_rack_id`(`rack_id` ASC) USING BTREE,
 INDEX `ix_c_dcim_operation_histories_uid`(`uid` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_ipam_operation_histories DDL
+DROP TABLE IF EXISTS `c_ipam_operation_histories`;
 CREATE TABLE `c_ipam_operation_histories` (`created_at` DATETIME NULL,
 `id` INT NOT NULL AUTO_INCREMENT,
 `uid` INT NULL,
@@ -757,6 +805,7 @@ INDEX `ix_c_ipam_operation_histories_created_at`(`created_at` ASC) USING BTREE,
 INDEX `ix_c_ipam_operation_histories_uid`(`uid` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_ipam_subnet_scan_histories DDL
+DROP TABLE IF EXISTS `c_ipam_subnet_scan_histories`;
 CREATE TABLE `c_ipam_subnet_scan_histories` (`created_at` DATETIME NULL,
 `id` INT NOT NULL AUTO_INCREMENT,
 `subnet_scan_id` INT NULL,
@@ -774,6 +823,7 @@ INDEX `ix_c_ipam_subnet_scan_histories_exec_id`(`exec_id` ASC) USING BTREE,
 INDEX `ix_c_ipam_subnet_scan_histories_subnet_scan_id`(`subnet_scan_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_ipam_subnet_scans DDL
+DROP TABLE IF EXISTS `c_ipam_subnet_scans`;
 CREATE TABLE `c_ipam_subnet_scans` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -790,6 +840,7 @@ INDEX `ix_c_ipam_subnet_scans_ci_id`(`ci_id` ASC) USING BTREE,
 INDEX `ix_c_ipam_subnet_scans_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_kv DDL
+DROP TABLE IF EXISTS `c_kv`;
 CREATE TABLE `c_kv` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -801,6 +852,7 @@ INDEX `ix_c_kv_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_c_kv_key`(`key` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_pasc DDL
+DROP TABLE IF EXISTS `c_pasc`;
 CREATE TABLE `c_pasc` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -814,8 +866,9 @@ CREATE TABLE `c_pasc` (`deleted_at` DATETIME NULL,
 `description` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
 INDEX `ix_c_pasc_deleted`(`deleted` ASC) USING BTREE,
 UNIQUE INDEX `ix_c_pasc_uid`(`uid` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 2 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 3 ROW_FORMAT = Dynamic;
 -- c_pcto DDL
+DROP TABLE IF EXISTS `c_pcto`;
 CREATE TABLE `c_pcto` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -828,8 +881,9 @@ CREATE TABLE `c_pcto` (`deleted_at` DATETIME NULL,
 INDEX `ix_c_pcto_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_c_pcto_uid`(`uid` ASC) USING BTREE,
 INDEX `type_id`(`type_id` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 2 ROW_FORMAT = Dynamic;
 -- c_prv DDL
+DROP TABLE IF EXISTS `c_prv`;
 CREATE TABLE `c_prv` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -844,6 +898,7 @@ INDEX `ix_c_preference_relation_views_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_c_preference_relation_views_name`(`name` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 19 ROW_FORMAT = Dynamic;
 -- c_psa DDL
+DROP TABLE IF EXISTS `c_psa`;
 CREATE TABLE `c_psa` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -859,8 +914,9 @@ INDEX `attr_id`(`attr_id` ASC) USING BTREE,
 INDEX `ix_c_preference_show_attributes_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_c_preference_show_attributes_uid`(`uid` ASC) USING BTREE,
 INDEX `type_id`(`type_id` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1062 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1090 ROW_FORMAT = Dynamic;
 -- c_pso DDL
+DROP TABLE IF EXISTS `c_pso`;
 CREATE TABLE `c_pso` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -879,6 +935,7 @@ INDEX `ptv_id`(`ptv_id` ASC) USING BTREE,
 INDEX `type_id`(`type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 58 ROW_FORMAT = Dynamic;
 -- c_ptv DDL
+DROP TABLE IF EXISTS `c_ptv`;
 CREATE TABLE `c_ptv` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -892,6 +949,7 @@ INDEX `ix_c_preference_tree_views_uid`(`uid` ASC) USING BTREE,
 INDEX `type_id`(`type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 33 ROW_FORMAT = Dynamic;
 -- c_records DDL
+DROP TABLE IF EXISTS `c_records`;
 CREATE TABLE `c_records` (`created_at` DATETIME NULL,
 `id` INT NOT NULL AUTO_INCREMENT,
 `uid` INT NOT NULL,
@@ -902,8 +960,9 @@ CREATE TABLE `c_records` (`created_at` DATETIME NULL,
 INDEX `ix_c_records_created_at`(`created_at` ASC) USING BTREE,
 INDEX `ix_c_records_type_id`(`type_id` ASC) USING BTREE,
 INDEX `ix_c_records_uid`(`uid` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 8 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 14 ROW_FORMAT = Dynamic;
 -- c_relation_histories DDL
+DROP TABLE IF EXISTS `c_relation_histories`;
 CREATE TABLE `c_relation_histories` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -920,6 +979,7 @@ INDEX `record_id`(`record_id` ASC) USING BTREE,
 INDEX `relation_type_id`(`relation_type_id` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 4 ROW_FORMAT = Dynamic;
 -- c_relation_types DDL
+DROP TABLE IF EXISTS `c_relation_types`;
 CREATE TABLE `c_relation_types` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -930,6 +990,7 @@ INDEX `ix_c_relation_types_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_c_relation_types_name`(`name` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 6 ROW_FORMAT = Dynamic;
 -- c_sc DDL
+DROP TABLE IF EXISTS `c_sc`;
 CREATE TABLE `c_sc` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -941,6 +1002,7 @@ INDEX `ix_c_sc_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_c_sc_name`(`name` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 2 ROW_FORMAT = Dynamic;
 -- c_topology_view_groups DDL
+DROP TABLE IF EXISTS `c_topology_view_groups`;
 CREATE TABLE `c_topology_view_groups` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -952,6 +1014,7 @@ INDEX `ix_c_topology_view_groups_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_c_topology_view_groups_name`(`name` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_topology_views DDL
+DROP TABLE IF EXISTS `c_topology_views`;
 CREATE TABLE `c_topology_views` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -970,6 +1033,7 @@ INDEX `ix_c_topology_views_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_c_topology_views_name`(`name` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_value_datetime DDL
+DROP TABLE IF EXISTS `c_value_datetime`;
 CREATE TABLE `c_value_datetime` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -983,6 +1047,7 @@ INDEX `ci_id`(`ci_id` ASC) USING BTREE,
 INDEX `ix_c_value_datetime_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_value_floats DDL
+DROP TABLE IF EXISTS `c_value_floats`;
 CREATE TABLE `c_value_floats` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -996,6 +1061,7 @@ INDEX `ci_id`(`ci_id` ASC) USING BTREE,
 INDEX `ix_c_value_floats_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_value_index_datetime DDL
+DROP TABLE IF EXISTS `c_value_index_datetime`;
 CREATE TABLE `c_value_index_datetime` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -1009,6 +1075,7 @@ INDEX `datetime_attr_value_index`(`attr_id` ASC,`value` ASC) USING BTREE,
 INDEX `ix_c_value_index_datetime_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_value_index_floats DDL
+DROP TABLE IF EXISTS `c_value_index_floats`;
 CREATE TABLE `c_value_index_floats` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -1022,6 +1089,7 @@ INDEX `float_attr_value_index`(`attr_id` ASC,`value` ASC) USING BTREE,
 INDEX `ix_c_value_index_floats_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_value_index_integers DDL
+DROP TABLE IF EXISTS `c_value_index_integers`;
 CREATE TABLE `c_value_index_integers` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -1033,8 +1101,9 @@ CREATE TABLE `c_value_index_integers` (`deleted_at` DATETIME NULL,
 INDEX `ci_id`(`ci_id` ASC) USING BTREE,
 INDEX `integer_attr_value_index`(`attr_id` ASC,`value` ASC) USING BTREE,
 INDEX `ix_c_value_index_integers_deleted`(`deleted` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 2 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 3 ROW_FORMAT = Dynamic;
 -- c_value_index_texts DDL
+DROP TABLE IF EXISTS `c_value_index_texts`;
 CREATE TABLE `c_value_index_texts` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -1046,8 +1115,9 @@ CREATE TABLE `c_value_index_texts` (`deleted_at` DATETIME NULL,
 INDEX `ci_id`(`ci_id` ASC) USING BTREE,
 INDEX `ix_c_value_index_texts_deleted`(`deleted` ASC) USING BTREE,
 INDEX `text_attr_value_index`(`attr_id` ASC,`value` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 12 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 24 ROW_FORMAT = Dynamic;
 -- c_value_integers DDL
+DROP TABLE IF EXISTS `c_value_integers`;
 CREATE TABLE `c_value_integers` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -1061,6 +1131,7 @@ INDEX `ci_id`(`ci_id` ASC) USING BTREE,
 INDEX `ix_c_value_integers_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- c_value_json DDL
+DROP TABLE IF EXISTS `c_value_json`;
 CREATE TABLE `c_value_json` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -1072,8 +1143,9 @@ CREATE TABLE `c_value_json` (`deleted_at` DATETIME NULL,
 INDEX `attr_id`(`attr_id` ASC) USING BTREE,
 INDEX `ci_id`(`ci_id` ASC) USING BTREE,
 INDEX `ix_c_value_json_deleted`(`deleted` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 6 ROW_FORMAT = Dynamic;
 -- c_value_texts DDL
+DROP TABLE IF EXISTS `c_value_texts`;
 CREATE TABLE `c_value_texts` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -1085,8 +1157,9 @@ CREATE TABLE `c_value_texts` (`deleted_at` DATETIME NULL,
 INDEX `attr_id`(`attr_id` ASC) USING BTREE,
 INDEX `ci_id`(`ci_id` ASC) USING BTREE,
 INDEX `ix_c_value_texts_deleted`(`deleted` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 2 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 52 ROW_FORMAT = Dynamic;
 -- common_company_info_json DDL
+DROP TABLE IF EXISTS `common_company_info_json`;
 CREATE TABLE `common_company_info_json` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -1096,6 +1169,7 @@ CREATE TABLE `common_company_info_json` (`deleted_at` DATETIME NULL,
 INDEX `ix_common_company_info_json_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- common_data DDL
+DROP TABLE IF EXISTS `common_data`;
 CREATE TABLE `common_data` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -1104,8 +1178,9 @@ CREATE TABLE `common_data` (`deleted_at` DATETIME NULL,
 `data_type` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
 `data` JSON NULL,
 INDEX `ix_common_data_deleted`(`deleted` ASC) USING BTREE,
-PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 4 ROW_FORMAT = Dynamic;
 -- common_department DDL
+DROP TABLE IF EXISTS `common_department`;
 CREATE TABLE `common_department` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -1117,8 +1192,9 @@ CREATE TABLE `common_department` (`deleted_at` DATETIME NULL,
 `sort_value` INT NULL Comment "排序值",
 `acl_rid` INT NULL Comment "ACL中rid",
 INDEX `ix_common_department_deleted`(`deleted` ASC) USING BTREE,
-PRIMARY KEY (`department_id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`department_id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 2 ROW_FORMAT = Dynamic;
 -- common_employee DDL
+DROP TABLE IF EXISTS `common_employee`;
 CREATE TABLE `common_employee` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -1141,8 +1217,9 @@ CREATE TABLE `common_employee` (`deleted_at` DATETIME NULL,
 `notice_info` JSON NULL,
 INDEX `department_id`(`department_id` ASC) USING BTREE,
 INDEX `ix_common_employee_deleted`(`deleted` ASC) USING BTREE,
-PRIMARY KEY (`employee_id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 5 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`employee_id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 7 ROW_FORMAT = Dynamic;
 -- common_employee_info DDL
+DROP TABLE IF EXISTS `common_employee_info`;
 CREATE TABLE `common_employee_info` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -1154,6 +1231,7 @@ INDEX `employee_id`(`employee_id` ASC) USING BTREE,
 INDEX `ix_common_employee_info_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- common_file DDL
+DROP TABLE IF EXISTS `common_file`;
 CREATE TABLE `common_file` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -1166,6 +1244,7 @@ INDEX `ix_common_file_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_common_file_file_name`(`file_name` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- common_internal_message DDL
+DROP TABLE IF EXISTS `common_internal_message`;
 CREATE TABLE `common_internal_message` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -1183,6 +1262,7 @@ INDEX `employee_id`(`employee_id` ASC) USING BTREE,
 INDEX `ix_common_internal_message_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- common_notice_config DDL
+DROP TABLE IF EXISTS `common_notice_config`;
 CREATE TABLE `common_notice_config` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `created_at` DATETIME NULL,
@@ -1193,6 +1273,7 @@ CREATE TABLE `common_notice_config` (`deleted_at` DATETIME NULL,
 INDEX `ix_common_notice_config_deleted`(`deleted` ASC) USING BTREE,
 PRIMARY KEY (`id`)) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci AUTO_INCREMENT = 1 ROW_FORMAT = Dynamic;
 -- users DDL
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (`deleted_at` DATETIME NULL,
 `deleted` TINYINT(1) NULL,
 `uid` INT NOT NULL AUTO_INCREMENT,
@@ -1218,11 +1299,11 @@ INDEX `ix_users_deleted`(`deleted` ASC) USING BTREE,
 INDEX `ix_users_employee_id`(`employee_id` ASC) USING BTREE,
 UNIQUE INDEX `mobile`(`mobile` ASC) USING BTREE,
 UNIQUE INDEX `username`(`username` ASC) USING BTREE,
-PRIMARY KEY (`uid`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 47 ROW_FORMAT = Dynamic;
+PRIMARY KEY (`uid`)) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci AUTO_INCREMENT = 49 ROW_FORMAT = Dynamic;
 -- acl_permissions Constraints
 ALTER TABLE `acl_permissions` 
- ADD CONSTRAINT `acl_permissions_ibfk_2` FOREIGN KEY (`app_id`) REFERENCES `acl_apps` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `acl_permissions_ibfk_1` FOREIGN KEY (`resource_type_id`) REFERENCES `acl_resource_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ ADD CONSTRAINT `acl_permissions_ibfk_1` FOREIGN KEY (`resource_type_id`) REFERENCES `acl_resource_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `acl_permissions_ibfk_2` FOREIGN KEY (`app_id`) REFERENCES `acl_apps` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- acl_resource_group_items Constraints
 ALTER TABLE `acl_resource_group_items` 
  ADD CONSTRAINT `acl_resource_group_items_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `acl_resource_groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -1240,11 +1321,11 @@ ALTER TABLE `acl_resources`
 ADD CONSTRAINT `acl_resources_ibfk_2` FOREIGN KEY (`app_id`) REFERENCES `acl_apps` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- acl_role_permissions Constraints
 ALTER TABLE `acl_role_permissions` 
- ADD CONSTRAINT `acl_role_permissions_ibfk_1` FOREIGN KEY (`rid`) REFERENCES `acl_roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ ADD CONSTRAINT `acl_role_permissions_ibfk_4` FOREIGN KEY (`perm_id`) REFERENCES `acl_permissions` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `acl_role_permissions_ibfk_5` FOREIGN KEY (`app_id`) REFERENCES `acl_apps` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `acl_role_permissions_ibfk_1` FOREIGN KEY (`rid`) REFERENCES `acl_roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 ADD CONSTRAINT `acl_role_permissions_ibfk_2` FOREIGN KEY (`resource_id`) REFERENCES `acl_resources` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `acl_role_permissions_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `acl_resource_groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `acl_role_permissions_ibfk_4` FOREIGN KEY (`perm_id`) REFERENCES `acl_permissions` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `acl_role_permissions_ibfk_5` FOREIGN KEY (`app_id`) REFERENCES `acl_apps` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ADD CONSTRAINT `acl_role_permissions_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `acl_resource_groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- acl_role_relations Constraints
 ALTER TABLE `acl_role_relations` 
  ADD CONSTRAINT `acl_role_relations_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `acl_roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -1255,8 +1336,8 @@ ALTER TABLE `acl_roles`
  ADD CONSTRAINT `acl_roles_ibfk_1` FOREIGN KEY (`app_id`) REFERENCES `acl_apps` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- acl_triggers Constraints
 ALTER TABLE `acl_triggers` 
- ADD CONSTRAINT `acl_triggers_ibfk_1` FOREIGN KEY (`resource_type_id`) REFERENCES `acl_resource_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `acl_triggers_ibfk_2` FOREIGN KEY (`app_id`) REFERENCES `acl_apps` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ ADD CONSTRAINT `acl_triggers_ibfk_2` FOREIGN KEY (`app_id`) REFERENCES `acl_apps` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `acl_triggers_ibfk_1` FOREIGN KEY (`resource_type_id`) REFERENCES `acl_resource_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- c_ad_accounts Constraints
 ALTER TABLE `c_ad_accounts` 
  ADD CONSTRAINT `c_ad_accounts_ibfk_1` FOREIGN KEY (`adr_id`) REFERENCES `c_ad_rules` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -1266,13 +1347,13 @@ ALTER TABLE `c_ad_ci`
 ADD CONSTRAINT `c_ad_ci_ibfk_2` FOREIGN KEY (`adt_id`) REFERENCES `c_ad_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- c_ad_ci_type_relations Constraints
 ALTER TABLE `c_ad_ci_type_relations` 
- ADD CONSTRAINT `c_ad_ci_type_relations_ibfk_1` FOREIGN KEY (`ad_type_id`) REFERENCES `c_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `c_ad_ci_type_relations_ibfk_2` FOREIGN KEY (`peer_type_id`) REFERENCES `c_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `c_ad_ci_type_relations_ibfk_3` FOREIGN KEY (`peer_attr_id`) REFERENCES `c_attributes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ ADD CONSTRAINT `c_ad_ci_type_relations_ibfk_2` FOREIGN KEY (`peer_type_id`) REFERENCES `c_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `c_ad_ci_type_relations_ibfk_3` FOREIGN KEY (`peer_attr_id`) REFERENCES `c_attributes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `c_ad_ci_type_relations_ibfk_1` FOREIGN KEY (`ad_type_id`) REFERENCES `c_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- c_ad_ci_types Constraints
 ALTER TABLE `c_ad_ci_types` 
- ADD CONSTRAINT `c_ad_ci_types_ibfk2` FOREIGN KEY (`adr_id`) REFERENCES `c_ad_rules` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `c_ad_ci_types_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `c_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ ADD CONSTRAINT `c_ad_ci_types_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `c_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `c_ad_ci_types_ibfk2` FOREIGN KEY (`adr_id`) REFERENCES `c_ad_rules` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- c_ad_rule_sync_histories Constraints
 ALTER TABLE `c_ad_rule_sync_histories` 
  ADD CONSTRAINT `c_ad_rule_sync_histories_ibfk_1` FOREIGN KEY (`adt_id`) REFERENCES `c_ad_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -1317,8 +1398,8 @@ ALTER TABLE `c_ci_trigger_histories`
 ADD CONSTRAINT `c_ci_trigger_histories_ibfk_2` FOREIGN KEY (`trigger_id`) REFERENCES `c_c_t_t` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- c_ci_type_attribute_group_items Constraints
 ALTER TABLE `c_ci_type_attribute_group_items` 
- ADD CONSTRAINT `c_ci_type_attribute_group_items_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `c_ci_type_attribute_groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `c_ci_type_attribute_group_items_ibfk_2` FOREIGN KEY (`attr_id`) REFERENCES `c_attributes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ ADD CONSTRAINT `c_ci_type_attribute_group_items_ibfk_2` FOREIGN KEY (`attr_id`) REFERENCES `c_attributes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `c_ci_type_attribute_group_items_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `c_ci_type_attribute_groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- c_ci_type_attribute_groups Constraints
 ALTER TABLE `c_ci_type_attribute_groups` 
  ADD CONSTRAINT `c_ci_type_attribute_groups_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `c_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -1336,9 +1417,9 @@ ALTER TABLE `c_ci_type_inheritance`
 ADD CONSTRAINT `c_ci_type_inheritance_ibfk_2` FOREIGN KEY (`child_id`) REFERENCES `c_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- c_ci_type_relations Constraints
 ALTER TABLE `c_ci_type_relations` 
- ADD CONSTRAINT `c_ci_type_relations_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `c_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `c_ci_type_relations_ibfk_2` FOREIGN KEY (`child_id`) REFERENCES `c_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `c_ci_type_relations_ibfk_3` FOREIGN KEY (`relation_type_id`) REFERENCES `c_relation_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ ADD CONSTRAINT `c_ci_type_relations_ibfk_3` FOREIGN KEY (`relation_type_id`) REFERENCES `c_relation_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `c_ci_type_relations_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `c_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `c_ci_type_relations_ibfk_2` FOREIGN KEY (`child_id`) REFERENCES `c_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- c_ci_types Constraints
 ALTER TABLE `c_ci_types` 
  ADD CONSTRAINT `c_ci_types_ibfk_1` FOREIGN KEY (`unique_id`) REFERENCES `c_attributes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -1354,9 +1435,9 @@ ALTER TABLE `c_psa`
 ADD CONSTRAINT `c_psa_ibfk_2` FOREIGN KEY (`attr_id`) REFERENCES `c_attributes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- c_pso Constraints
 ALTER TABLE `c_pso` 
- ADD CONSTRAINT `c_pso_ibfk_1` FOREIGN KEY (`prv_id`) REFERENCES `c_prv` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `c_pso_ibfk_2` FOREIGN KEY (`ptv_id`) REFERENCES `c_ptv` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `c_pso_ibfk_3` FOREIGN KEY (`type_id`) REFERENCES `c_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ ADD CONSTRAINT `c_pso_ibfk_3` FOREIGN KEY (`type_id`) REFERENCES `c_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `c_pso_ibfk_1` FOREIGN KEY (`prv_id`) REFERENCES `c_prv` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `c_pso_ibfk_2` FOREIGN KEY (`ptv_id`) REFERENCES `c_ptv` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- c_ptv Constraints
 ALTER TABLE `c_ptv` 
  ADD CONSTRAINT `c_ptv_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `c_ci_types` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -1377,8 +1458,8 @@ ALTER TABLE `c_value_floats`
 ADD CONSTRAINT `c_value_floats_ibfk_2` FOREIGN KEY (`attr_id`) REFERENCES `c_attributes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- c_value_index_datetime Constraints
 ALTER TABLE `c_value_index_datetime` 
- ADD CONSTRAINT `c_value_index_datetime_ibfk_2` FOREIGN KEY (`attr_id`) REFERENCES `c_attributes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `c_value_index_datetime_ibfk_1` FOREIGN KEY (`ci_id`) REFERENCES `c_cis` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ ADD CONSTRAINT `c_value_index_datetime_ibfk_1` FOREIGN KEY (`ci_id`) REFERENCES `c_cis` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `c_value_index_datetime_ibfk_2` FOREIGN KEY (`attr_id`) REFERENCES `c_attributes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- c_value_index_floats Constraints
 ALTER TABLE `c_value_index_floats` 
  ADD CONSTRAINT `c_value_index_floats_ibfk_1` FOREIGN KEY (`ci_id`) REFERENCES `c_cis` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -1389,8 +1470,8 @@ ALTER TABLE `c_value_index_integers`
 ADD CONSTRAINT `c_value_index_integers_ibfk_2` FOREIGN KEY (`attr_id`) REFERENCES `c_attributes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- c_value_index_texts Constraints
 ALTER TABLE `c_value_index_texts` 
- ADD CONSTRAINT `c_value_index_texts_ibfk_2` FOREIGN KEY (`attr_id`) REFERENCES `c_attributes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `c_value_index_texts_ibfk_1` FOREIGN KEY (`ci_id`) REFERENCES `c_cis` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ ADD CONSTRAINT `c_value_index_texts_ibfk_1` FOREIGN KEY (`ci_id`) REFERENCES `c_cis` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+ADD CONSTRAINT `c_value_index_texts_ibfk_2` FOREIGN KEY (`attr_id`) REFERENCES `c_attributes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- c_value_integers Constraints
 ALTER TABLE `c_value_integers` 
  ADD CONSTRAINT `c_value_integers_ibfk_1` FOREIGN KEY (`ci_id`) REFERENCES `c_cis` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -1415,7 +1496,7 @@ ALTER TABLE `common_internal_message`
 -- acl_apps DML
 INSERT INTO `acl_apps` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`id`,`name`,`description`,`app_id`,`secret_key`) VALUES (NULL,0,NULL,'2021-11-24 13:21:18',1,'acl','ACL',NULL,NULL),(NULL,0,NULL,NULL,2,'cmdb',NULL,NULL,NULL),(NULL,0,'2023-06-01 14:28:20',NULL,9,'backend','backend','73027543764f4b558f7c07e990bbf45e','ldEOLD*q4TxoeS6zh%Hp?8wtG0^9VJmZ') ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`id` = VALUES(`id`),`name` = VALUES(`name`),`description` = VALUES(`description`),`app_id` = VALUES(`app_id`),`secret_key` = VALUES(`secret_key`);
 -- acl_audit_login_logs DML
-INSERT INTO `acl_audit_login_logs` (`created_at`,`id`,`username`,`channel`,`ip`,`browser`,`description`,`is_ok`,`login_at`,`logout_at`) VALUES ('2026-06-02 09:21:43',1,'admin','web','127.0.0.1','python-requests/2.31.0','login successful',1,'2026-06-02 09:21:43',NULL),('2026-06-02 09:26:31',2,'admin','web','172.25.0.1','curl/7.61.1','login successful',1,'2026-06-02 09:26:31',NULL),('2026-06-02 09:26:44',3,'admin','web','192.168.39.227','curl/7.61.1','login successful',1,'2026-06-02 09:26:44',NULL),('2026-06-02 09:29:53',4,'admin','web','172.25.0.1','curl/7.61.1','login successful',1,'2026-06-02 09:29:53',NULL),('2026-06-02 09:35:16',5,'admin','web','172.25.0.1','curl/7.61.1','login successful',1,'2026-06-02 09:35:16',NULL),('2026-06-02 10:01:18',6,NULL,'web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',NULL,NULL,NULL,'2026-06-02 10:01:18'),('2026-06-02 10:07:52',7,'admin','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:07:52','2026-06-02 10:09:15'),('2026-06-02 10:13:49',8,'admin','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:13:49','2026-06-02 10:22:09'),('2026-06-02 10:22:13',9,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:22:13','2026-06-02 10:22:36'),('2026-06-02 10:22:29',10,'maoruyi','web','172.25.0.1','curl/7.61.1','login successful',1,'2026-06-02 10:22:29',NULL),('2026-06-02 10:23:00',11,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:23:00','2026-06-02 10:25:51'),('2026-06-02 10:28:08',12,'admin','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:28:08','2026-06-02 10:32:35'),('2026-06-02 10:32:38',13,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:32:38',NULL),('2026-06-02 10:32:40',14,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:32:40','2026-06-02 10:39:48'),('2026-06-02 10:39:52',15,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:39:52','2026-06-02 10:40:09'),('2026-06-02 10:40:13',16,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:40:13','2026-06-02 10:41:56'),('2026-06-02 10:42:03',17,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:42:03',NULL),('2026-06-02 12:00:32',18,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 12:00:31',NULL),('2026-06-02 12:00:35',19,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 12:00:35',NULL),('2026-06-02 12:14:58',20,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 12:14:58','2026-06-02 12:15:14'),('2026-06-02 12:15:23',21,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 12:15:23','2026-06-02 12:15:34'),('2026-06-02 12:15:35',22,'maoruyi','web','172.22.0.1','curl/7.61.1','login successful',1,'2026-06-02 12:15:34',NULL),('2026-06-02 12:15:37',23,'liuyihang','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 12:15:37','2026-06-02 12:15:42') ON DUPLICATE KEY UPDATE `created_at` = VALUES(`created_at`),`id` = VALUES(`id`),`username` = VALUES(`username`),`channel` = VALUES(`channel`),`ip` = VALUES(`ip`),`browser` = VALUES(`browser`),`description` = VALUES(`description`),`is_ok` = VALUES(`is_ok`),`login_at` = VALUES(`login_at`),`logout_at` = VALUES(`logout_at`);
+INSERT INTO `acl_audit_login_logs` (`created_at`,`id`,`username`,`channel`,`ip`,`browser`,`description`,`is_ok`,`login_at`,`logout_at`) VALUES ('2026-06-02 09:21:43',1,'admin','web','127.0.0.1','python-requests/2.31.0','login successful',1,'2026-06-02 09:21:43',NULL),('2026-06-02 09:26:31',2,'admin','web','172.25.0.1','curl/7.61.1','login successful',1,'2026-06-02 09:26:31',NULL),('2026-06-02 09:26:44',3,'admin','web','192.168.39.227','curl/7.61.1','login successful',1,'2026-06-02 09:26:44',NULL),('2026-06-02 09:29:53',4,'admin','web','172.25.0.1','curl/7.61.1','login successful',1,'2026-06-02 09:29:53',NULL),('2026-06-02 09:35:16',5,'admin','web','172.25.0.1','curl/7.61.1','login successful',1,'2026-06-02 09:35:16',NULL),('2026-06-02 10:01:18',6,NULL,'web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',NULL,NULL,NULL,'2026-06-02 10:01:18'),('2026-06-02 10:07:52',7,'admin','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:07:52','2026-06-02 10:09:15'),('2026-06-02 10:13:49',8,'admin','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:13:49','2026-06-02 10:22:09'),('2026-06-02 10:22:13',9,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:22:13','2026-06-02 10:22:36'),('2026-06-02 10:22:29',10,'maoruyi','web','172.25.0.1','curl/7.61.1','login successful',1,'2026-06-02 10:22:29',NULL),('2026-06-02 10:23:00',11,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:23:00','2026-06-02 10:25:51'),('2026-06-02 10:28:08',12,'admin','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:28:08','2026-06-02 10:32:35'),('2026-06-02 10:32:38',13,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:32:38',NULL),('2026-06-02 10:32:40',14,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:32:40','2026-06-02 10:39:48'),('2026-06-02 10:39:52',15,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:39:52','2026-06-02 10:40:09'),('2026-06-02 10:40:13',16,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:40:13','2026-06-02 10:41:56'),('2026-06-02 10:42:03',17,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 10:42:03',NULL),('2026-06-02 12:00:32',18,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 12:00:31',NULL),('2026-06-02 12:00:35',19,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 12:00:35',NULL),('2026-06-02 12:14:58',20,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 12:14:58','2026-06-02 12:15:14'),('2026-06-02 12:15:23',21,'maoruyi','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 12:15:23','2026-06-02 12:15:34'),('2026-06-02 12:15:35',22,'maoruyi','web','172.22.0.1','curl/7.61.1','login successful',1,'2026-06-02 12:15:34',NULL),('2026-06-02 12:15:37',23,'liuyihang','web','10.5.221.211','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 12:15:37','2026-06-02 12:15:42'),('2026-06-02 18:04:25',24,'admin','web','127.0.0.1','curl/8.11.0','login successful',1,'2026-06-02 18:04:25',NULL),('2026-06-02 18:10:46',25,'admin','web','127.0.0.1','curl/8.11.0','Password verification failed',0,'2026-06-02 18:10:46',NULL),('2026-06-02 18:10:50',26,'admin','web','127.0.0.1','curl/8.11.0','Password verification failed',0,'2026-06-02 18:10:50',NULL),('2026-06-02 18:12:06',27,'admin','web','127.0.0.1','curl/8.11.0','Password verification failed',0,'2026-06-02 18:12:06',NULL),('2026-06-02 18:12:06',28,'admin','web','127.0.0.1','curl/8.11.0','login successful',1,'2026-06-02 18:12:06',NULL),('2026-06-02 18:13:04',29,'admin','web','127.0.0.1','curl/8.11.0','login successful',1,'2026-06-02 18:13:04',NULL),('2026-06-02 18:13:15',30,'admin','web','127.0.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 18:13:15',NULL),('2026-06-02 18:16:17',31,'admin','web','127.0.0.1','curl/8.11.0','login successful',1,'2026-06-02 18:16:17',NULL),('2026-06-02 18:28:35',32,'admin','web','127.0.0.1','curl/8.11.0','login successful',1,'2026-06-02 18:28:35',NULL),('2026-06-02 18:36:28',33,'admin','web','127.0.0.1','curl/8.11.0','login successful',1,'2026-06-02 18:36:28',NULL),('2026-06-02 18:36:35',34,'admin','web','127.0.0.1','curl/8.11.0','login successful',1,'2026-06-02 18:36:35',NULL),('2026-06-02 19:14:56',35,'admin','web','127.0.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 19:14:56','2026-06-02 22:27:00'),('2026-06-02 22:27:03',36,'maoruyi','web','127.0.0.1','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36','登录成功',1,'2026-06-02 22:27:03',NULL) ON DUPLICATE KEY UPDATE `created_at` = VALUES(`created_at`),`id` = VALUES(`id`),`username` = VALUES(`username`),`channel` = VALUES(`channel`),`ip` = VALUES(`ip`),`browser` = VALUES(`browser`),`description` = VALUES(`description`),`is_ok` = VALUES(`is_ok`),`login_at` = VALUES(`login_at`),`logout_at` = VALUES(`logout_at`);
 -- acl_audit_permission_logs DML
 INSERT INTO `acl_audit_permission_logs` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`id`,`app_id`,`operate_uid`,`operate_type`,`rid`,`resource_type_id`,`resource_ids`,`group_ids`,`permission_ids`,`source`) VALUES (NULL,0,'2023-07-11 16:55:04',NULL,1,2,1,'grant',57,1,'[1]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:04',NULL,2,2,1,'grant',57,1,'[2]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:04',NULL,3,2,1,'grant',57,1,'[3]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:04',NULL,4,2,1,'grant',57,1,'[4]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:05',NULL,5,2,1,'grant',57,1,'[5]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:05',NULL,6,2,1,'grant',57,1,'[6]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:05',NULL,7,2,1,'grant',57,1,'[7]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:05',NULL,8,2,1,'grant',57,1,'[8]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:05',NULL,9,2,1,'grant',57,1,'[9]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:05',NULL,10,2,1,'grant',57,1,'[10]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:05',NULL,11,2,1,'grant',57,1,'[11]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:05',NULL,12,2,1,'grant',57,1,'[12]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:05',NULL,13,2,1,'grant',57,1,'[13]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:05',NULL,14,2,1,'grant',57,1,'[14]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:05',NULL,15,2,1,'grant',57,1,'[15]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:05',NULL,16,2,1,'grant',57,1,'[16]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:05',NULL,17,2,1,'grant',57,1,'[17]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:06',NULL,18,2,1,'grant',57,1,'[18]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:55:06',NULL,19,2,1,'grant',57,1,'[19]','[]','[1, 2, 3, 4, 5]','acl'),(NULL,0,'2023-07-11 16:56:51',NULL,20,2,1,'grant',2,1,'[1]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:51',NULL,21,2,1,'grant',2,1,'[2]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:51',NULL,22,2,1,'grant',2,1,'[3]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:51',NULL,23,2,1,'grant',2,1,'[4]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:51',NULL,24,2,1,'grant',2,1,'[5]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:52',NULL,25,2,1,'grant',2,1,'[6]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:52',NULL,26,2,1,'grant',2,1,'[7]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:52',NULL,27,2,1,'grant',2,1,'[8]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:52',NULL,28,2,1,'grant',2,1,'[9]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:52',NULL,29,2,1,'grant',2,1,'[10]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:52',NULL,30,2,1,'grant',2,1,'[11]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:52',NULL,31,2,1,'grant',2,1,'[12]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:52',NULL,32,2,1,'grant',2,1,'[13]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:52',NULL,33,2,1,'grant',2,1,'[14]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:52',NULL,34,2,1,'grant',2,1,'[15]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:52',NULL,35,2,1,'grant',2,1,'[16]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:53',NULL,36,2,1,'grant',2,1,'[17]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:53',NULL,37,2,1,'grant',2,1,'[18]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:53',NULL,38,2,1,'grant',2,1,'[19]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:56:53',NULL,39,2,1,'grant',2,1,'[20]','[]','[1, 2, 3, 4, 5, 6]','acl'),(NULL,0,'2023-07-11 16:59:34',NULL,40,2,1,'grant',2,10,'[23]','[]','[12, 13, 14]','acl'),(NULL,0,'2023-07-11 16:59:44',NULL,41,2,1,'grant',2,10,'[24]','[]','[12, 13, 14]','acl'),(NULL,0,'2023-07-11 16:59:55',NULL,42,2,1,'grant',2,10,'[25]','[]','[12, 13, 14]','acl'),(NULL,0,'2023-07-11 17:00:16',NULL,43,2,1,'grant',2,10,'[26]','[]','[12, 13, 14]','acl'),(NULL,0,'2023-07-11 17:00:26',NULL,44,2,1,'grant',2,10,'[27]','[]','[12, 13, 14]','acl'),(NULL,0,'2023-07-11 17:00:34',NULL,45,2,1,'grant',2,10,'[28]','[]','[12, 13, 14]','acl'),(NULL,0,'2023-07-11 17:03:45',NULL,46,2,1,'grant',57,10,'[21]','[]','[12, 13]','acl'),(NULL,0,'2023-07-11 17:03:45',NULL,47,2,1,'grant',2,10,'[21]','[]','[12, 13]','acl'),(NULL,0,'2023-07-11 17:03:45',NULL,48,2,1,'grant',57,10,'[22]','[]','[12, 13]','acl'),(NULL,0,'2023-07-11 17:03:45',NULL,49,2,1,'grant',2,10,'[22]','[]','[12, 13]','acl'),(NULL,0,'2023-07-11 17:03:45',NULL,50,2,1,'grant',57,10,'[23]','[]','[12, 13]','acl'),(NULL,0,'2023-07-11 17:03:45',NULL,51,2,1,'grant',57,10,'[24]','[]','[12, 13]','acl'),(NULL,0,'2023-07-11 17:03:45',NULL,52,2,1,'grant',57,10,'[25]','[]','[12, 13]','acl'),(NULL,0,'2023-07-11 17:03:45',NULL,53,2,1,'grant',57,10,'[26]','[]','[12, 13]','acl'),(NULL,0,'2023-07-11 17:03:45',NULL,54,2,1,'grant',57,10,'[27]','[]','[12, 13]','acl'),(NULL,0,'2023-07-11 17:03:45',NULL,55,2,1,'grant',57,10,'[28]','[]','[12, 13]','acl'),(NULL,0,'2026-06-02 09:20:34',NULL,56,2,NULL,'grant',58,1,'[2]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:34',NULL,57,2,NULL,'grant',58,1,'[3]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:34',NULL,58,2,NULL,'grant',58,1,'[4]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:35',NULL,59,2,NULL,'grant',58,1,'[5]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:35',NULL,60,2,NULL,'grant',58,1,'[6]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:35',NULL,61,2,NULL,'grant',58,1,'[7]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:35',NULL,62,2,NULL,'grant',58,1,'[8]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:35',NULL,63,2,NULL,'grant',58,1,'[9]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:35',NULL,64,2,NULL,'grant',58,1,'[10]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:35',NULL,65,2,NULL,'grant',58,1,'[11]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:35',NULL,66,2,NULL,'grant',58,1,'[12]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:35',NULL,67,2,NULL,'grant',58,1,'[13]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:35',NULL,68,2,NULL,'grant',58,1,'[14]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:35',NULL,69,2,NULL,'grant',58,1,'[15]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:35',NULL,70,2,NULL,'grant',58,1,'[16]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:35',NULL,71,2,NULL,'grant',58,1,'[17]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:36',NULL,72,2,NULL,'grant',58,1,'[18]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:36',NULL,73,2,NULL,'grant',58,1,'[19]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:36',NULL,74,2,NULL,'grant',58,1,'[20]','[]','[4]','acl'),(NULL,0,'2026-06-02 09:20:36',NULL,75,2,NULL,'grant',58,2,'[29]','[]','[9]','acl'),(NULL,0,'2026-06-02 09:20:44',NULL,76,9,NULL,'grant',2,23,'[30]','[]','[24, 21, 22, 23]','acl'),(NULL,0,'2026-06-02 09:20:44',NULL,77,9,NULL,'grant',2,23,'[31]','[]','[24, 21, 22, 23]','acl'),(NULL,0,'2026-06-02 09:20:44',NULL,78,9,NULL,'grant',2,23,'[32]','[]','[24, 21, 22, 23]','acl'),(NULL,0,'2026-06-02 09:57:28',NULL,79,2,NULL,'grant',58,1,'[33]','[]','[4]','acl') ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`id` = VALUES(`id`),`app_id` = VALUES(`app_id`),`operate_uid` = VALUES(`operate_uid`),`operate_type` = VALUES(`operate_type`),`rid` = VALUES(`rid`),`resource_type_id` = VALUES(`resource_type_id`),`resource_ids` = VALUES(`resource_ids`),`group_ids` = VALUES(`group_ids`),`permission_ids` = VALUES(`permission_ids`),`source` = VALUES(`source`);
 -- acl_audit_resource_logs DML
@@ -1437,7 +1518,7 @@ INSERT INTO `acl_role_relations` (`deleted_at`,`deleted`,`created_at`,`updated_a
 -- acl_roles DML
 INSERT INTO `acl_roles` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`id`,`name`,`is_app_admin`,`app_id`,`uid`,`key`,`secret`,`password`) VALUES (NULL,0,NULL,NULL,1,'acl_admin',1,1,NULL,'5a7154fafd7c41eaba03d2053052a0bd','IqfETBw3!nxWNay9FH#P^x34d',NULL),(NULL,0,NULL,NULL,2,'admin',0,NULL,1,NULL,NULL,NULL),(NULL,0,'2021-11-23 19:46:44',NULL,3,'cmdb_admin',1,2,NULL,NULL,NULL,NULL),(NULL,0,'2023-07-10 16:19:01',NULL,57,'demo',0,NULL,46,'a2815ab62f7a49f9b86d1ec6c475e7e6','e235V8faYsAgy#nw^xLqJKdSD$6RtZiz',NULL),(NULL,0,'2023-07-11 16:59:05',NULL,58,'CMDB_READ_ALL',0,2,NULL,'3000e19614174743ab5011dba42b215b','VBfUShHsEm@q?rZ7KtneAJ2iaN0ybj%x',NULL),(NULL,0,NULL,NULL,59,'worker',NULL,NULL,3,NULL,NULL,NULL),(NULL,0,'2026-06-02 10:22:13',NULL,60,'maoruyi',0,NULL,47,'12b9d9d376944d87bfe5ab7823ab4472','wrg$Fb@1uK~#SJ?IjzfY&7W^5sq4%8i*',NULL),(NULL,0,'2026-06-02 12:15:37',NULL,61,'liuyihang',0,NULL,48,'49898b3ebf044718b0e0d000bb3e981c','A203BZbm5zV%H8Fqa@I9RJEKlcOfitU1',NULL) ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`id` = VALUES(`id`),`name` = VALUES(`name`),`is_app_admin` = VALUES(`is_app_admin`),`app_id` = VALUES(`app_id`),`uid` = VALUES(`uid`),`key` = VALUES(`key`),`secret` = VALUES(`secret`),`password` = VALUES(`password`);
 -- c_ad_accounts DML
-INSERT INTO `c_ad_accounts` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`id`,`uid`,`name`,`adr_id`,`config`) VALUES (NULL,0,'2026-06-02 09:31:41','2026-06-02 09:40:13',1,1,'maoruyi阿里',1,'{"key": "LTAI5t5tKUqLHNhQ4fcrmxWZ", "secret": "1SsDCLMVs/m5044sIQ2ZfWQ8z0PoWOT4n91r5jCH5Bo="}') ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`id` = VALUES(`id`),`uid` = VALUES(`uid`),`name` = VALUES(`name`),`adr_id` = VALUES(`adr_id`),`config` = VALUES(`config`);
+INSERT INTO `c_ad_accounts` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`id`,`uid`,`name`,`adr_id`,`config`) VALUES (NULL,0,'2026-06-02 09:31:41','2026-06-02 19:13:14',1,1,'maoruyi阿里',1,'{"key": "LTAI5t5tKUqLHNhQ4fcrmxWZ", "secret": "7MSAtfVNco26/nte3YJca2RwyjdVYUgX2v7ylKesZj0="}') ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`id` = VALUES(`id`),`uid` = VALUES(`uid`),`name` = VALUES(`name`),`adr_id` = VALUES(`adr_id`),`config` = VALUES(`config`);
 -- c_ad_ci DML
 INSERT INTO `c_ad_ci` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`id`,`type_id`,`adt_id`,`unique_value`,`instance`,`ci_id`,`is_accept`,`accept_by`,`accept_time`) VALUES (NULL,0,'2026-06-02 09:40:58','2026-06-02 09:40:59',1,39,4,'aliyun:1:cn-hangzhou:ecs:i-bp1aob2iejzohu8nuc2f','{"raw_data": {"Cpu": 2, "Tags": {"Tag": [{"TagKey": "ecs", "TagValue": "trial"}]}, "Memory": 2048, "OSName": "Ubuntu  22.04 64位", "OSType": "linux", "Status": "Running", "VlanId": "", "ZoneId": "cn-hangzhou-i", "GPUSpec": "", "ImageId": "ubuntu_22_04_x64_20G_alibase_20260506.vhd", "HostName": "iZbp1aob2iejzohu8nuc2fZ", "OSNameEn": "Ubuntu  22.04 64 bit", "RegionId": "cn-hangzhou", "ClusterId": "", "GPUAmount": 0, "SaleCycle": "", "StartTime": "2026-05-30T12:11Z", "CpuOptions": {"Numa": "ON", "CoreCount": 1, "ThreadsPerCore": 2}, "EipAddress": {"IpAddress": "", "AllocationId": "", "InternetChargeType": ""}, "InstanceId": "i-bp1aob2iejzohu8nuc2f", "Recyclable": false, "Description": "", "ExpiredTime": "2099-12-31T15:59Z", "IoOptimized": true, "StoppedMode": "Not-applicable", "ClockOptions": {}, "CreationTime": "2026-05-30T12:11Z", "ImageOptions": {}, "InstanceName": "iZbp1aob2iejzohu8nuc2fZ", "InstanceType": "ecs.e-c1m1.large", "SerialNumber": "5487bcbe-dc62-44c1-b1c1-ed7aad3ab0e2", "SpotStrategy": "NoSpot", "VpcAttributes": {"VpcId": "vpc-bp1rlufjrxhbk89cxkmre", "VSwitchId": "vsw-bp15an6keyqmh7a452anb", "NatIpAddress": "", "PrivateIpAddress": {"IpAddress": ["172.30.4.92"]}}, "AdditionalInfo": {}, "InnerIpAddress": {"IpAddress": []}, "OperationLocks": {"LockReason": []}, "SpotPriceLimit": 0.0, "AutoReleaseTime": "", "DeploymentSetId": "", "DeviceAvailable": true, "MetadataOptions": {"HttpTokens": "", "HttpEndpoint": ""}, "PublicIpAddress": {"IpAddress": ["116.62.38.51"]}, "ResourceGroupId": "", "SecurityGroupIds": {"SecurityGroupId": ["sg-bp1aob2iejzohu8nso45"]}, "NetworkInterfaces": {"NetworkInterface": [{"Type": "Primary", "MacAddress": "00:16:3e:6d:3b:20", "PrivateIpSets": {"PrivateIpSet": [{"Primary": true, "PrivateIpAddress": "172.30.4.92"}]}, "PrimaryIpAddress": "172.30.4.92", "NetworkInterfaceId": "eni-bp1aob2iejzohu8q193u"}]}, "DeletionProtection": false, "HibernationOptions": {"Configured": false}, "InstanceChargeType": "PostPaid", "InstanceTypeFamily": "ecs.e", "InternetChargeType": "PayByTraffic", "CreditSpecification": "", "InstanceNetworkType": "vpc", "PrivateDnsNameOptions": {}, "DedicatedHostAttribute": {"DedicatedHostId": "", "DedicatedHostName": "", "DedicatedHostClusterId": ""}, "InternetMaxBandwidthIn": 200, "InternetMaxBandwidthOut": 100, "DedicatedInstanceAttribute": {"Tenancy": "", "Affinity": ""}, "EcsCapacityReservationAttr": {"CapacityReservationId": "", "CapacityReservationPreference": ""}}, "cloud_region": "cn-hangzhou", "cloud_status": "Running", "cloud_account": "maoruyi阿里", "cloud_service": "云服务器 ECS", "cloud_provider": "aliyun", "cloud_public_ip": "116.62.38.51", "cloud_private_ip": "172.30.4.92", "cloud_resource_id": "i-bp1aob2iejzohu8nuc2f", "cloud_resource_uid": "aliyun:1:cn-hangzhou:ecs:i-bp1aob2iejzohu8nuc2f", "cloud_resource_name": "iZbp1aob2iejzohu8nuc2fZ", "cloud_resource_type": "ecs"}',5,1,'cloud_sync','2026-06-02 09:40:59'),(NULL,0,'2026-06-02 09:40:59','2026-06-02 09:40:59',2,5,5,'aliyun:1:cn-hangzhou:ecs:i-bp1aob2iejzohu8nuc2f','{"Cpu": 2, "Tags": {"Tag": [{"TagKey": "ecs", "TagValue": "trial"}]}, "Memory": 2048, "OSName": "Ubuntu  22.04 64位", "OSType": "linux", "Status": "Running", "VlanId": "", "ZoneId": "cn-hangzhou-i", "GPUSpec": "", "ImageId": "ubuntu_22_04_x64_20G_alibase_20260506.vhd", "HostName": "iZbp1aob2iejzohu8nuc2fZ", "OSNameEn": "Ubuntu  22.04 64 bit", "RegionId": "cn-hangzhou", "ClusterId": "", "GPUAmount": 0, "SaleCycle": "", "StartTime": "2026-05-30T12:11Z", "CpuOptions": {"Numa": "ON", "CoreCount": 1, "ThreadsPerCore": 2}, "EipAddress": {"IpAddress": "", "AllocationId": "", "InternetChargeType": ""}, "InstanceId": "i-bp1aob2iejzohu8nuc2f", "Recyclable": false, "Description": "", "ExpiredTime": "2099-12-31T15:59Z", "IoOptimized": true, "StoppedMode": "Not-applicable", "ClockOptions": {}, "CreationTime": "2026-05-30T12:11Z", "ImageOptions": {}, "InstanceName": "iZbp1aob2iejzohu8nuc2fZ", "InstanceType": "ecs.e-c1m1.large", "SerialNumber": "5487bcbe-dc62-44c1-b1c1-ed7aad3ab0e2", "SpotStrategy": "NoSpot", "VpcAttributes": {"VpcId": "vpc-bp1rlufjrxhbk89cxkmre", "VSwitchId": "vsw-bp15an6keyqmh7a452anb", "NatIpAddress": "", "PrivateIpAddress": {"IpAddress": ["172.30.4.92"]}}, "AdditionalInfo": {}, "InnerIpAddress": {"IpAddress": []}, "OperationLocks": {"LockReason": []}, "SpotPriceLimit": 0.0, "AutoReleaseTime": "", "DeploymentSetId": "", "DeviceAvailable": true, "MetadataOptions": {"HttpTokens": "", "HttpEndpoint": ""}, "PublicIpAddress": {"IpAddress": ["116.62.38.51"]}, "ResourceGroupId": "", "SecurityGroupIds": {"SecurityGroupId": ["sg-bp1aob2iejzohu8nso45"]}, "NetworkInterfaces": {"NetworkInterface": [{"Type": "Primary", "MacAddress": "00:16:3e:6d:3b:20", "PrivateIpSets": {"PrivateIpSet": [{"Primary": true, "PrivateIpAddress": "172.30.4.92"}]}, "PrimaryIpAddress": "172.30.4.92", "NetworkInterfaceId": "eni-bp1aob2iejzohu8q193u"}]}, "DeletionProtection": false, "HibernationOptions": {"Configured": false}, "InstanceChargeType": "PostPaid", "InstanceTypeFamily": "ecs.e", "InternetChargeType": "PayByTraffic", "CreditSpecification": "", "InstanceNetworkType": "vpc", "PrivateDnsNameOptions": {}, "DedicatedHostAttribute": {"DedicatedHostId": "", "DedicatedHostName": "", "DedicatedHostClusterId": ""}, "InternetMaxBandwidthIn": 200, "InternetMaxBandwidthOut": 100, "DedicatedInstanceAttribute": {"Tenancy": "", "Affinity": ""}, "EcsCapacityReservationAttr": {"CapacityReservationId": "", "CapacityReservationPreference": ""}}',6,1,'cloud_sync','2026-06-02 09:40:59'),(NULL,0,'2026-06-02 09:40:59','2026-06-02 09:41:00',3,39,4,'aliyun:1:cn-hangzhou:disk:d-bp1aob2iejzohu8ruep0','{"raw_data": {"IOPS": 2120, "Size": 40, "Tags": {"Tag": [{"TagKey": "ecs", "TagValue": "trial"}]}, "Type": "system", "BdfId": "", "Device": "/dev/xvda", "DiskId": "d-bp1aob2iejzohu8ruep0", "Status": "In_use", "ZoneId": "cn-hangzhou-i", "ImageId": "ubuntu_22_04_x64_20G_alibase_20260506.vhd", "Category": "cloud_essd_entry", "DiskName": "", "KMSKeyId": "", "Portable": true, "RegionId": "cn-hangzhou", "Encrypted": false, "Placement": {}, "InstanceId": "i-bp1aob2iejzohu8nuc2f", "Throughput": 106, "Attachments": {"Attachment": [{"Device": "/dev/xvda", "InstanceId": "i-bp1aob2iejzohu8nuc2f", "AttachedTime": "2026-05-30T12:11:36Z"}]}, "Description": "", "ExpiredTime": "2999-09-08T16:00Z", "MultiAttach": "Disabled", "ProductCode": "", "AttachedTime": "2026-05-30T12:11:36Z", "CreationTime": "2026-05-30T12:11:25Z", "DetachedTime": "", "SerialNumber": "bp1aob2iejzohu8ruep0", "StorageSetId": "", "DiskChargeType": "PostPaid", "OperationLocks": {"OperationLock": []}, "ResourceGroupId": "", "PerformanceLevel": "", "SourceSnapshotId": "", "StorageClusterId": "", "DeleteAutoSnapshot": false, "DeleteWithInstance": true, "EnableAutoSnapshot": true, "AutoSnapshotPolicyId": "", "EnableAutomatedSnapshotPolicy": false}, "cloud_region": "cn-hangzhou", "cloud_status": "In_use", "cloud_account": "maoruyi阿里", "cloud_service": "云服务器 Disk", "cloud_provider": "aliyun", "cloud_public_ip": "", "cloud_private_ip": "", "cloud_resource_id": "d-bp1aob2iejzohu8ruep0", "cloud_resource_uid": "aliyun:1:cn-hangzhou:disk:d-bp1aob2iejzohu8ruep0", "cloud_resource_name": "d-bp1aob2iejzohu8ruep0", "cloud_resource_type": "disk"}',7,1,'cloud_sync','2026-06-02 09:41:00'),(NULL,0,'2026-06-02 09:41:00','2026-06-02 09:41:00',4,39,4,'aliyun:1:cn-hangzhou:security_group:sg-bp1aob2iejzohu8nso45','{"raw_data": {"Tags": {"Tag": []}, "VpcId": "vpc-bp1rlufjrxhbk89cxkmre", "RuleCount": 3, "Description": "System created security group.", "CreationTime": "2026-05-30T12:11:34Z", "ServiceManaged": false, "ResourceGroupId": "", "SecurityGroupId": "sg-bp1aob2iejzohu8nso45", "SecurityGroupName": "sg-bp1aob2iejzohu8nso45", "SecurityGroupType": "normal", "GroupToGroupRuleCount": 0}, "cloud_region": "cn-hangzhou", "cloud_status": "", "cloud_account": "maoruyi阿里", "cloud_service": "安全组", "cloud_provider": "aliyun", "cloud_public_ip": "", "cloud_private_ip": "", "cloud_resource_id": "sg-bp1aob2iejzohu8nso45", "cloud_resource_uid": "aliyun:1:cn-hangzhou:security_group:sg-bp1aob2iejzohu8nso45", "cloud_resource_name": "sg-bp1aob2iejzohu8nso45", "cloud_resource_type": "security_group"}',8,1,'cloud_sync','2026-06-02 09:41:00'),(NULL,0,'2026-06-02 09:41:00','2026-06-02 09:41:00',5,39,4,'aliyun:1:cn-hangzhou:vpc:vpc-bp1rlufjrxhbk89cxkmre','{"raw_data": {"VpcId": "vpc-bp1rlufjrxhbk89cxkmre", "Status": "Available", "OwnerId": 1777192194881764, "VpcName": "", "RegionId": "cn-hangzhou", "CenStatus": "Detached", "CidrBlock": "172.16.0.0/12", "IsDefault": true, "UserCidrs": {"UserCidr": []}, "VRouterId": "vrt-bp15uspij26n86y7mjb5n", "VSwitchIds": {"VSwitchId": ["vsw-bp15an6keyqmh7a452anb"]}, "Description": "System created default VPC.", "EnabledIpv6": false, "CreationTime": "2026-05-30T12:11:26Z", "Ipv6CidrBlock": "", "NatGatewayIds": {"NatGatewayIds": []}, "NetworkAclNum": 0, "RouterTableIds": {"RouterTableIds": ["vtb-bp1o8boya6dqs3q64z22k"]}, "ResourceGroupId": "rg-acfm2425k5qtrza", "AdvancedResource": false, "DnsHostnameStatus": "DISABLED", "SecondaryCidrBlocks": {"SecondaryCidrBlock": []}}, "cloud_region": "cn-hangzhou", "cloud_status": "", "cloud_account": "maoruyi阿里", "cloud_service": "专有网络VPC", "cloud_provider": "aliyun", "cloud_public_ip": "", "cloud_private_ip": "", "cloud_resource_id": "vpc-bp1rlufjrxhbk89cxkmre", "cloud_resource_uid": "aliyun:1:cn-hangzhou:vpc:vpc-bp1rlufjrxhbk89cxkmre", "cloud_resource_name": "vpc-bp1rlufjrxhbk89cxkmre", "cloud_resource_type": "vpc"}',9,1,'cloud_sync','2026-06-02 09:41:00'),(NULL,0,'2026-06-02 09:41:00','2026-06-02 09:41:01',6,39,4,'aliyun:1:cn-hangzhou:vswitch:vsw-bp15an6keyqmh7a452anb','{"raw_data": {"VpcId": "vpc-bp1rlufjrxhbk89cxkmre", "Status": "Available", "ZoneId": "cn-hangzhou-i", "OwnerId": 1777192194881764, "CidrBlock": "172.30.0.0/20", "IsDefault": true, "ShareType": "", "VSwitchId": "vsw-bp15an6keyqmh7a452anb", "RouteTable": {"RouteTableId": "vtb-bp1o8boya6dqs3q64z22k", "RouteTableType": "System"}, "Description": "System created default virtual switch.", "VSwitchName": "", "CreationTime": "2026-05-30T12:11:30Z", "NetworkAclId": "", "Ipv6CidrBlock": "", "ResourceGroupId": "rg-acfm2425k5qtrza", "AvailableIpAddressCount": 4091}, "cloud_region": "cn-hangzhou", "cloud_status": "", "cloud_account": "maoruyi阿里", "cloud_service": "交换机Switch", "cloud_provider": "aliyun", "cloud_public_ip": "", "cloud_private_ip": "", "cloud_resource_id": "vsw-bp15an6keyqmh7a452anb", "cloud_resource_uid": "aliyun:1:cn-hangzhou:vswitch:vsw-bp15an6keyqmh7a452anb", "cloud_resource_name": "vsw-bp15an6keyqmh7a452anb", "cloud_resource_type": "vswitch"}',10,1,'cloud_sync','2026-06-02 09:41:01') ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`id` = VALUES(`id`),`type_id` = VALUES(`type_id`),`adt_id` = VALUES(`adt_id`),`unique_value` = VALUES(`unique_value`),`instance` = VALUES(`instance`),`ci_id` = VALUES(`ci_id`),`is_accept` = VALUES(`is_accept`),`accept_by` = VALUES(`accept_by`),`accept_time` = VALUES(`accept_time`);
 -- c_ad_ci_types DML
@@ -1479,7 +1560,7 @@ INSERT INTO `c_ci_types` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`id`,
 -- c_cis DML
 INSERT INTO `c_cis` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`id`,`type_id`,`status`,`heartbeat`,`a`,`updated_by`) VALUES (NULL,0,'2023-07-11 17:49:51','2023-07-11 17:49:51',1,1,NULL,'2023-07-11 17:49:51',0,'admin'),(NULL,0,'2023-07-11 17:50:29','2023-07-11 17:50:29',2,2,NULL,'2023-07-11 17:50:29',0,'admin'),(NULL,0,'2023-07-11 17:50:36','2023-07-11 17:50:36',3,3,NULL,'2023-07-11 17:50:36',0,'admin'),(NULL,0,'2023-07-11 17:51:01','2023-07-11 17:51:01',4,4,NULL,'2023-07-11 17:51:01',0,'admin'),(NULL,0,'2026-06-02 09:40:58','2026-06-02 09:40:59',5,39,NULL,'2026-06-02 09:40:58',1,'worker'),(NULL,0,'2026-06-02 09:40:59','2026-06-02 09:40:59',6,5,NULL,'2026-06-02 09:40:59',1,'worker'),(NULL,0,'2026-06-02 09:40:59','2026-06-02 09:41:00',7,39,NULL,'2026-06-02 09:40:59',1,'worker'),(NULL,0,'2026-06-02 09:41:00','2026-06-02 09:41:00',8,39,NULL,'2026-06-02 09:41:00',1,'worker'),(NULL,0,'2026-06-02 09:41:00','2026-06-02 09:41:00',9,39,NULL,'2026-06-02 09:41:00',1,'worker'),(NULL,0,'2026-06-02 09:41:00','2026-06-02 09:41:01',10,39,NULL,'2026-06-02 09:41:00',1,'worker') ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`id` = VALUES(`id`),`type_id` = VALUES(`type_id`),`status` = VALUES(`status`),`heartbeat` = VALUES(`heartbeat`),`a` = VALUES(`a`),`updated_by` = VALUES(`updated_by`);
 -- c_pasc DML
-INSERT INTO `c_pasc` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`id`,`uid`,`base_strategy`,`group_ids`,`type_ids`,`enabled`,`description`) VALUES (NULL,0,'2026-06-02 09:30:34',NULL,1,1,'all','[]','[]',1,NULL) ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`id` = VALUES(`id`),`uid` = VALUES(`uid`),`base_strategy` = VALUES(`base_strategy`),`group_ids` = VALUES(`group_ids`),`type_ids` = VALUES(`type_ids`),`enabled` = VALUES(`enabled`),`description` = VALUES(`description`);
+INSERT INTO `c_pasc` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`id`,`uid`,`base_strategy`,`group_ids`,`type_ids`,`enabled`,`description`) VALUES (NULL,0,'2026-06-02 09:30:34',NULL,1,1,'all','[]','[]',1,NULL),(NULL,0,'2026-06-02 22:27:10',NULL,2,47,'all','[]','[]',1,NULL) ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`id` = VALUES(`id`),`uid` = VALUES(`uid`),`base_strategy` = VALUES(`base_strategy`),`group_ids` = VALUES(`group_ids`),`type_ids` = VALUES(`type_ids`),`enabled` = VALUES(`enabled`),`description` = VALUES(`description`);
 -- c_pcto DML
 INSERT INTO `c_pcto` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`id`,`uid`,`type_id`,`order`,`is_tree`) VALUES (NULL,0,'2026-06-02 09:45:10',NULL,1,1,5,1,0) ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`id` = VALUES(`id`),`uid` = VALUES(`uid`),`type_id` = VALUES(`type_id`),`order` = VALUES(`order`),`is_tree` = VALUES(`is_tree`);
 -- c_prv DML
@@ -1505,11 +1586,11 @@ INSERT INTO `c_value_json` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`id
 -- c_value_texts DML
 INSERT INTO `c_value_texts` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`id`,`ci_id`,`attr_id`,`value`) VALUES (NULL,0,'2023-07-11 17:51:01',NULL,1,4,23,'物理机1'),(NULL,0,'2026-06-02 09:40:58',NULL,2,5,106,'cn-hangzhou'),(NULL,0,'2026-06-02 09:40:58',NULL,3,5,111,'Running'),(NULL,0,'2026-06-02 09:40:58',NULL,4,5,105,'maoruyi阿里'),(NULL,0,'2026-06-02 09:40:58',NULL,5,5,110,'云服务器 ECS'),(NULL,0,'2026-06-02 09:40:58',NULL,6,5,104,'aliyun'),(NULL,0,'2026-06-02 09:40:58',NULL,7,5,113,'116.62.38.51'),(NULL,0,'2026-06-02 09:40:58',NULL,8,5,112,'172.30.4.92'),(NULL,0,'2026-06-02 09:40:58',NULL,9,5,108,'i-bp1aob2iejzohu8nuc2f'),(NULL,0,'2026-06-02 09:40:58',NULL,10,5,109,'iZbp1aob2iejzohu8nuc2fZ'),(NULL,0,'2026-06-02 09:40:58',NULL,11,5,107,'ecs'),(NULL,0,'2026-06-02 09:41:00',NULL,12,7,106,'cn-hangzhou'),(NULL,0,'2026-06-02 09:41:00',NULL,13,7,111,'In_use'),(NULL,0,'2026-06-02 09:41:00',NULL,14,7,105,'maoruyi阿里'),(NULL,0,'2026-06-02 09:41:00',NULL,15,7,110,'云服务器 Disk'),(NULL,0,'2026-06-02 09:41:00',NULL,16,7,104,'aliyun'),(NULL,0,'2026-06-02 09:41:00',NULL,17,7,113,''),(NULL,0,'2026-06-02 09:41:00',NULL,18,7,112,''),(NULL,0,'2026-06-02 09:41:00',NULL,19,7,108,'d-bp1aob2iejzohu8ruep0'),(NULL,0,'2026-06-02 09:41:00',NULL,20,7,109,'d-bp1aob2iejzohu8ruep0'),(NULL,0,'2026-06-02 09:41:00',NULL,21,7,107,'disk'),(NULL,0,'2026-06-02 09:41:00',NULL,22,8,106,'cn-hangzhou'),(NULL,0,'2026-06-02 09:41:00',NULL,23,8,111,''),(NULL,0,'2026-06-02 09:41:00',NULL,24,8,105,'maoruyi阿里'),(NULL,0,'2026-06-02 09:41:00',NULL,25,8,110,'安全组'),(NULL,0,'2026-06-02 09:41:00',NULL,26,8,104,'aliyun'),(NULL,0,'2026-06-02 09:41:00',NULL,27,8,113,''),(NULL,0,'2026-06-02 09:41:00',NULL,28,8,112,''),(NULL,0,'2026-06-02 09:41:00',NULL,29,8,108,'sg-bp1aob2iejzohu8nso45'),(NULL,0,'2026-06-02 09:41:00',NULL,30,8,109,'sg-bp1aob2iejzohu8nso45'),(NULL,0,'2026-06-02 09:41:00',NULL,31,8,107,'security_group'),(NULL,0,'2026-06-02 09:41:00',NULL,32,9,106,'cn-hangzhou'),(NULL,0,'2026-06-02 09:41:00',NULL,33,9,111,''),(NULL,0,'2026-06-02 09:41:00',NULL,34,9,105,'maoruyi阿里'),(NULL,0,'2026-06-02 09:41:00',NULL,35,9,110,'专有网络VPC'),(NULL,0,'2026-06-02 09:41:00',NULL,36,9,104,'aliyun'),(NULL,0,'2026-06-02 09:41:00',NULL,37,9,113,''),(NULL,0,'2026-06-02 09:41:00',NULL,38,9,112,''),(NULL,0,'2026-06-02 09:41:00',NULL,39,9,108,'vpc-bp1rlufjrxhbk89cxkmre'),(NULL,0,'2026-06-02 09:41:00',NULL,40,9,109,'vpc-bp1rlufjrxhbk89cxkmre'),(NULL,0,'2026-06-02 09:41:00',NULL,41,9,107,'vpc'),(NULL,0,'2026-06-02 09:41:00',NULL,42,10,106,'cn-hangzhou'),(NULL,0,'2026-06-02 09:41:00',NULL,43,10,111,''),(NULL,0,'2026-06-02 09:41:00',NULL,44,10,105,'maoruyi阿里'),(NULL,0,'2026-06-02 09:41:00',NULL,45,10,110,'交换机Switch'),(NULL,0,'2026-06-02 09:41:00',NULL,46,10,104,'aliyun'),(NULL,0,'2026-06-02 09:41:00',NULL,47,10,113,''),(NULL,0,'2026-06-02 09:41:00',NULL,48,10,112,''),(NULL,0,'2026-06-02 09:41:00',NULL,49,10,108,'vsw-bp15an6keyqmh7a452anb'),(NULL,0,'2026-06-02 09:41:00',NULL,50,10,109,'vsw-bp15an6keyqmh7a452anb'),(NULL,0,'2026-06-02 09:41:00',NULL,51,10,107,'vswitch') ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`id` = VALUES(`id`),`ci_id` = VALUES(`ci_id`),`attr_id` = VALUES(`attr_id`),`value` = VALUES(`value`);
 -- common_data DML
-INSERT INTO `common_data` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`id`,`data_type`,`data`) VALUES (NULL,0,'2026-06-02 09:54:37','2026-06-02 10:32:16',1,'LDAP','"i3g042OIlNGMLMJnDkITPn2c3AkSCZVXN+SiF50QjqGqBZbRw6dzm4ntAYzNOrEyNHhnSRLgQlgPvYA/BRMl91t3mzKzJIyaUkc2Rv/bpHJtyS5gaHow6xrSyup3R31BAc+HeklwpPkoCrOTB7262sQLW2LEnzosKv82VfEtkvJLZKZKNOHcS8zYodtf6zuDPwf47vW0dhuPp/RAvXcUMA=="') ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`id` = VALUES(`id`),`data_type` = VALUES(`data_type`),`data` = VALUES(`data`);
+INSERT INTO `common_data` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`id`,`data_type`,`data`) VALUES (NULL,NULL,NULL,NULL,2,'LDAP','{"enabled": false}'),(NULL,0,'2026-06-02 22:26:53',NULL,3,'LDAP','"EbI7d0NUO9/UvUBiKodFSL4pN2RT8F59ze3xTweX/rKjvSlCjuEhp+ocqqZ1UJUuqzdwxW5qi4y+dvqBsN5lRdIh8Q1XeWFhr+AXx+Lo5OiP2iUXhEfc6VczC2NROF78lJbCBwzFJk9wdc9nNh6lQVQubdfZsMoOJX+5roRWCM0gZe5ThlMnMWiSKEerI/2cuhfW108WVa0ctTLQQd/gKg=="') ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`id` = VALUES(`id`),`data_type` = VALUES(`data_type`),`data` = VALUES(`data`);
 -- common_department DML
-INSERT INTO `common_department` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`department_id`,`department_name`,`department_director_id`,`department_parent_id`,`sort_value`,`acl_rid`) VALUES (NULL,0,'2023-07-11 16:28:21','2023-07-11 16:28:21',0,'全公司',0,-1,0,0) ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`department_id` = VALUES(`department_id`),`department_name` = VALUES(`department_name`),`department_director_id` = VALUES(`department_director_id`),`department_parent_id` = VALUES(`department_parent_id`),`sort_value` = VALUES(`sort_value`),`acl_rid` = VALUES(`acl_rid`);
+INSERT INTO `common_department` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`department_id`,`department_name`,`department_director_id`,`department_parent_id`,`sort_value`,`acl_rid`) VALUES (NULL,0,'2023-07-11 16:28:21','2023-07-11 16:28:21',1,'全公司',0,-1,0,0) ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`department_id` = VALUES(`department_id`),`department_name` = VALUES(`department_name`),`department_director_id` = VALUES(`department_director_id`),`department_parent_id` = VALUES(`department_parent_id`),`sort_value` = VALUES(`sort_value`),`acl_rid` = VALUES(`acl_rid`);
 -- common_employee DML
-INSERT INTO `common_employee` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`employee_id`,`email`,`username`,`nickname`,`sex`,`position_name`,`mobile`,`avatar`,`direct_supervisor_id`,`department_id`,`acl_uid`,`acl_rid`,`acl_virtual_rid`,`last_login`,`block`,`notice_info`) VALUES (NULL,0,'2023-07-11 16:28:25','2026-06-02 09:17:38',1,'demo@veops.cn','demo','demo','','','','',0,0,46,57,0,'2023-07-11 16:28:24',0,NULL),(NULL,0,'2023-07-11 16:34:08','2026-06-02 10:07:52',2,'admin@one-ops.com','admin','admin','','','','',0,0,1,2,0,'2026-06-02 10:07:52',0,NULL),(NULL,0,'2026-06-02 09:17:38',NULL,3,'cmdb_agent@one-ops.com','cmdb_agent','cmdb_agent','','','','',0,0,2,0,0,NULL,0,'{}'),(NULL,0,'2026-06-02 09:17:38',NULL,4,'worker@one-ops.com','worker','worker','','','','',0,0,3,59,0,NULL,0,'{}'),(NULL,0,'2026-06-02 10:22:13','2026-06-02 12:14:58',5,'maoruyi@gaodun.com','maoruyi','maoruyi','','','','',0,0,47,60,0,'2026-06-02 12:14:58',0,'{}'),(NULL,0,'2026-06-02 12:15:37',NULL,6,'liuyihang@gaodun.com','liuyihang','liuyihang','','','','',0,0,48,61,0,NULL,0,'{}') ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`employee_id` = VALUES(`employee_id`),`email` = VALUES(`email`),`username` = VALUES(`username`),`nickname` = VALUES(`nickname`),`sex` = VALUES(`sex`),`position_name` = VALUES(`position_name`),`mobile` = VALUES(`mobile`),`avatar` = VALUES(`avatar`),`direct_supervisor_id` = VALUES(`direct_supervisor_id`),`department_id` = VALUES(`department_id`),`acl_uid` = VALUES(`acl_uid`),`acl_rid` = VALUES(`acl_rid`),`acl_virtual_rid` = VALUES(`acl_virtual_rid`),`last_login` = VALUES(`last_login`),`block` = VALUES(`block`),`notice_info` = VALUES(`notice_info`);
+INSERT INTO `common_employee` (`deleted_at`,`deleted`,`created_at`,`updated_at`,`employee_id`,`email`,`username`,`nickname`,`sex`,`position_name`,`mobile`,`avatar`,`direct_supervisor_id`,`department_id`,`acl_uid`,`acl_rid`,`acl_virtual_rid`,`last_login`,`block`,`notice_info`) VALUES (NULL,0,'2023-07-11 16:28:25','2026-06-02 09:17:38',1,'demo@veops.cn','demo','demo','','','','',0,0,46,57,0,'2023-07-11 16:28:24',0,NULL),(NULL,0,'2023-07-11 16:34:08','2026-06-02 19:14:56',2,'admin@one-ops.com','admin','admin','','','','',0,0,1,2,0,'2026-06-02 19:14:56',0,NULL),(NULL,0,'2026-06-02 09:17:38',NULL,3,'cmdb_agent@one-ops.com','cmdb_agent','cmdb_agent','','','','',0,0,2,0,0,NULL,0,'{}'),(NULL,0,'2026-06-02 09:17:38',NULL,4,'worker@one-ops.com','worker','worker','','','','',0,0,3,59,0,NULL,0,'{}'),(NULL,0,'2026-06-02 10:22:13','2026-06-02 12:14:58',5,'maoruyi@gaodun.com','maoruyi','maoruyi','','','','',0,0,47,60,0,'2026-06-02 12:14:58',0,'{}'),(NULL,0,'2026-06-02 12:15:37',NULL,6,'liuyihang@gaodun.com','liuyihang','liuyihang','','','','',0,0,48,61,0,NULL,0,'{}') ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`created_at` = VALUES(`created_at`),`updated_at` = VALUES(`updated_at`),`employee_id` = VALUES(`employee_id`),`email` = VALUES(`email`),`username` = VALUES(`username`),`nickname` = VALUES(`nickname`),`sex` = VALUES(`sex`),`position_name` = VALUES(`position_name`),`mobile` = VALUES(`mobile`),`avatar` = VALUES(`avatar`),`direct_supervisor_id` = VALUES(`direct_supervisor_id`),`department_id` = VALUES(`department_id`),`acl_uid` = VALUES(`acl_uid`),`acl_rid` = VALUES(`acl_rid`),`acl_virtual_rid` = VALUES(`acl_virtual_rid`),`last_login` = VALUES(`last_login`),`block` = VALUES(`block`),`notice_info` = VALUES(`notice_info`);
 -- users DML
-INSERT INTO `users` (`deleted_at`,`deleted`,`uid`,`username`,`nickname`,`department`,`catalog`,`email`,`mobile`,`password`,`key`,`secret`,`date_joined`,`last_login`,`block`,`has_logined`,`wx_id`,`employee_id`,`avatar`,`apps`) VALUES (NULL,0,1,'admin','admin',NULL,NULL,'admin@one-ops.com',NULL,'e10adc3949ba59abbe56e057f20f883e','','',NULL,'2026-06-02 10:28:08',0,1,NULL,'0001',NULL,NULL),(NULL,0,2,'cmdb_agent','cmdb_agent',NULL,NULL,'cmdb_agent@one-ops.com',NULL,NULL,'ef086550acb543828d9930d15b21a037','U~83O&PT2Qxsd1$H9df2v#*FcsiG1l?n',NULL,NULL,0,NULL,NULL,'0002',NULL,NULL),(NULL,0,3,'worker','worker',NULL,NULL,'worker@one-ops.com',NULL,'b34cd51b4a6e2f96547e4aeb81566a83','0577dfa24e4547ad91bfb23b62951845','~0g7tkFG$@wdHKe*r2rYu2RC2v1?d8I5',NULL,NULL,0,NULL,NULL,'0003',NULL,NULL),(NULL,0,46,'demo','demo',NULL,NULL,'demo@veops.cn',NULL,'e10adc3949ba59abbe56e057f20f883e','0ec692fb318b47e4b739c241d56c12e7','JDcAc563I4L47ji2R?fah1dZ6KPb!Ty0','2023-07-10 08:19:01','2023-07-11 16:30:42',0,1,NULL,'0004',NULL,NULL),(NULL,0,47,'maoruyi','maoruyi',NULL,NULL,'maoruyi@gaodun.com',NULL,'33aded3474ac3db485c43f1010a77727','69a293fd98fc4ed081a09bb036644c23','MrmgYLw1dfqax097OhuKV8X5NBz2kZPR','2026-06-02 10:22:13','2026-06-02 12:15:35',0,1,NULL,'0005',NULL,NULL),(NULL,0,48,'liuyihang','liuyihang',NULL,NULL,'liuyihang@gaodun.com',NULL,'2c68d360c878ca6dcf749c028a42dd64','331aa6c6756940f79c2a273e14c306d7','v0H3bCLf7r%il8@gqDPYy!5o&mtOIh4e','2026-06-02 12:15:37','2026-06-02 12:15:38',0,1,NULL,'0006',NULL,NULL) ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`uid` = VALUES(`uid`),`username` = VALUES(`username`),`nickname` = VALUES(`nickname`),`department` = VALUES(`department`),`catalog` = VALUES(`catalog`),`email` = VALUES(`email`),`mobile` = VALUES(`mobile`),`password` = VALUES(`password`),`key` = VALUES(`key`),`secret` = VALUES(`secret`),`date_joined` = VALUES(`date_joined`),`last_login` = VALUES(`last_login`),`block` = VALUES(`block`),`has_logined` = VALUES(`has_logined`),`wx_id` = VALUES(`wx_id`),`employee_id` = VALUES(`employee_id`),`avatar` = VALUES(`avatar`),`apps` = VALUES(`apps`);
+INSERT INTO `users` (`deleted_at`,`deleted`,`uid`,`username`,`nickname`,`department`,`catalog`,`email`,`mobile`,`password`,`key`,`secret`,`date_joined`,`last_login`,`block`,`has_logined`,`wx_id`,`employee_id`,`avatar`,`apps`) VALUES (NULL,0,1,'admin','admin',NULL,NULL,'admin@one-ops.com',NULL,'e10adc3949ba59abbe56e057f20f883e','','',NULL,'2026-06-02 19:14:56',0,1,NULL,'0001',NULL,NULL),(NULL,0,2,'cmdb_agent','cmdb_agent',NULL,NULL,'cmdb_agent@one-ops.com',NULL,NULL,'ef086550acb543828d9930d15b21a037','U~83O&PT2Qxsd1$H9df2v#*FcsiG1l?n',NULL,NULL,0,NULL,NULL,'0002',NULL,NULL),(NULL,0,3,'worker','worker',NULL,NULL,'worker@one-ops.com',NULL,'b34cd51b4a6e2f96547e4aeb81566a83','0577dfa24e4547ad91bfb23b62951845','~0g7tkFG$@wdHKe*r2rYu2RC2v1?d8I5',NULL,NULL,0,NULL,NULL,'0003',NULL,NULL),(NULL,0,46,'demo','demo',NULL,NULL,'demo@veops.cn',NULL,'e10adc3949ba59abbe56e057f20f883e','0ec692fb318b47e4b739c241d56c12e7','JDcAc563I4L47ji2R?fah1dZ6KPb!Ty0','2023-07-10 08:19:01','2023-07-11 16:30:42',0,1,NULL,'0004',NULL,NULL),(NULL,0,47,'maoruyi','maoruyi',NULL,NULL,'maoruyi@gaodun.com',NULL,'33aded3474ac3db485c43f1010a77727','69a293fd98fc4ed081a09bb036644c23','MrmgYLw1dfqax097OhuKV8X5NBz2kZPR','2026-06-02 10:22:13','2026-06-02 22:27:03',0,1,NULL,'0005',NULL,NULL),(NULL,0,48,'liuyihang','liuyihang',NULL,NULL,'liuyihang@gaodun.com',NULL,'2c68d360c878ca6dcf749c028a42dd64','331aa6c6756940f79c2a273e14c306d7','v0H3bCLf7r%il8@gqDPYy!5o&mtOIh4e','2026-06-02 12:15:37','2026-06-02 12:15:38',0,1,NULL,'0006',NULL,NULL) ON DUPLICATE KEY UPDATE `deleted_at` = VALUES(`deleted_at`),`deleted` = VALUES(`deleted`),`uid` = VALUES(`uid`),`username` = VALUES(`username`),`nickname` = VALUES(`nickname`),`department` = VALUES(`department`),`catalog` = VALUES(`catalog`),`email` = VALUES(`email`),`mobile` = VALUES(`mobile`),`password` = VALUES(`password`),`key` = VALUES(`key`),`secret` = VALUES(`secret`),`date_joined` = VALUES(`date_joined`),`last_login` = VALUES(`last_login`),`block` = VALUES(`block`),`has_logined` = VALUES(`has_logined`),`wx_id` = VALUES(`wx_id`),`employee_id` = VALUES(`employee_id`),`avatar` = VALUES(`avatar`),`apps` = VALUES(`apps`);
 SET FOREIGN_KEY_CHECKS = 1;
